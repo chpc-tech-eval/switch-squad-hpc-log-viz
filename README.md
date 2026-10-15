@@ -1,4 +1,4 @@
-\# Switch Squad HPC Log Visualization
+﻿# Switch Squad HPC Log Visualization
 
 
 
@@ -8,23 +8,23 @@ computer resource usage over time.
 
 
 
-\## Tested development setup
+## Tested development setup
 
 
 
-\- Operating system: Windows
+- Operating system: Windows
 
-\- Terminal: PowerShell
+- Terminal: PowerShell
 
-\- Python: 3.13.14
+- Python: 3.13.14
 
-\- Pandas: 3.0.6
+- Pandas: 3.0.6
 
-\- Package versions: recorded in requirements.txt
+- Package versions: recorded in requirements.txt
 
 
 
-\## Python version reasoning
+## Python version reasoning
 
 
 
@@ -40,7 +40,7 @@ Reference: https://devguide.python.org/versions/
 
 
 
-\## Set up a working copy
+## Set up a working copy
 
 
 
@@ -54,7 +54,7 @@ to keep the project:
 
 git clone https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz.git
 
-Set-Location .\\switch-squad-hpc-log-viz
+Set-Location .\switch-squad-hpc-log-viz
 
 python --version
 
@@ -74,7 +74,7 @@ Create the project's Python environment and install its packages:
 
 python -m venv .venv
 
-.\\.venv\\Scripts\\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 
 ```
 
@@ -86,7 +86,7 @@ Check that Pandas loads:
 
 ```powershell
 
-.\\.venv\\Scripts\\python.exe -c "import pandas as pd; print('Pandas version:', pd.\_\_version\_\_)"
+.\.venv\Scripts\python.exe -c "import pandas as pd; print('Pandas version:', pd.__version__)"
 
 ```
 
@@ -96,7 +96,7 @@ The expected Pandas version is 3.0.6.
 
 
 
-\## Dataset
+## Dataset
 
 
 
@@ -104,7 +104,7 @@ The supplied dataset is stored in logs.zip.
 
 
 
-\## Team contributions
+## Team contributions
 
 
 
@@ -117,4 +117,5 @@ report any problems in GitHub Issue #1.
 The .venv folder stays on each member's laptop. Its packages can
 
 be recreated using requirements.txt.
+
 
