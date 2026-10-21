@@ -11,11 +11,11 @@ resource usage and develop an interactive dashboard.
 - PowerShell
 - Git
 - Visual Studio Code
-- Python 3.13.14
+- Python 3.15.0
 
 ## Initial Python version choice
 
-Python 3.13.14 is available on the initial development machine.
+Python 3.15.0 is available on the initial development machine.
 We use a separate virtual environment for project packages.
 Package compatibility is checked by importing Pandas and running
 pip check. The team will verify this setup on their own machines.
