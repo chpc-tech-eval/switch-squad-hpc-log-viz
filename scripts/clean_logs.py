@@ -5,7 +5,8 @@ import json
 import math
 import re
 import zipfile
-from datetime import datetime, time
+from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -59,11 +60,31 @@ PERCENT_COLUMNS = [
     "cpu_percent",
 ]
 
+REQUIRED_COLUMNS = [
+    "jobs_running",
+    "jobs_queued",
+    "nodes_running",
+    "nodes_offline",
+    "nodes_total",
+]
 
 
-def parse_line(line, current_date=None):
+@dataclass
+class TimestampContext:
+    date: str | None = None
+    previous_timestamp: datetime | None = None
+
+    def clear(self):
+        self.date = None
+        self.previous_timestamp = None
+
+
+def parse_line(line, current_date=None, *, context=None):
     """Parse PBS records, infer dates and preserve quality warnings."""
 
+    if context is None:
+        context = TimestampContext(date=current_date)
+    current_date = context.date
     line = line.strip()
     warnings = []
 
@@ -74,15 +95,16 @@ def parse_line(line, current_date=None):
         metric_parts = parts[1:]
     else:
         match = re.match(
-            r"^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}|\d{2}:\d{2})\s+(.+)$",
+            r"^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}|\d{2}:\d{2})(?:\s+(.+))?$",
             line,
         )
 
         if not match:
+            context.clear()
             raise ValueError("No metrics found")
 
         timestamp_text = match.group(1)
-        metric_parts = match.group(2).split()
+        metric_parts = (match.group(2) or "").split()
 
     # Parse full or time-only timestamps.
     try:
@@ -94,16 +116,34 @@ def parse_line(line, current_date=None):
                 current_date + " " + timestamp_text,
                 "%Y-%m-%d %H:%M",
             )
-            warnings.append("Date inferred from preceding dated record")
+            if (
+                context.previous_timestamp is not None
+                and timestamp < context.previous_timestamp
+            ):
+                raise ValueError(
+                    "Time-only timestamp moved backwards; an explicit date is required"
+                )
+            warnings.append("Date inferred from preceding explicit dated timestamp")
         else:
             timestamp = datetime.strptime(
                 timestamp_text,
                 "%Y-%m-%d %H:%M",
             )
-            current_date = timestamp.strftime("%Y-%m-%d")
 
     except ValueError as error:
-        raise ValueError(f"Invalid timestamp: {timestamp_text}") from error
+        context.clear()
+        raise ValueError(
+            f"Invalid or ambiguous timestamp: {timestamp_text} ({error})"
+        ) from error
+
+    # Keep valid date context even if this row's metrics are later rejected.
+    # Never guess that a backwards time-only value belongs to the next day.
+    current_date = timestamp.strftime("%Y-%m-%d")
+    context.date = current_date
+    context.previous_timestamp = timestamp
+
+    if not metric_parts:
+        raise ValueError("No metrics found")
 
     record = {"timestamp": timestamp}
 
@@ -122,6 +162,15 @@ def parse_line(line, current_date=None):
             raise ValueError(f"Unexpected field: {key}")
 
         record[key] = value
+
+    missing_required = [
+        column for column in REQUIRED_COLUMNS
+        if record.get(column, "") == ""
+    ]
+    if missing_required:
+        raise ValueError(
+            "Missing required measurements: " + ", ".join(missing_required)
+        )
 
     # Keep all expected columns, including missing measurements.
     for column in EXPECTED_COLUMNS:
@@ -215,7 +264,9 @@ def process_files(archive, selected_files, output_dir):
     conflicting_rows = []
     warning_rows = []
     blank_lines = 0
+    input_nonblank_rows = 0
     seen = {}
+    conflicting_records = {}
 
     for filename in selected_files:
         print(f"Processing: {filename}")
@@ -225,16 +276,17 @@ def process_files(archive, selected_files, output_dir):
             errors="replace",
         ).splitlines()
 
-        current_date = None
+        context = TimestampContext()
 
         for line_number, line in enumerate(lines, start=1):
             if not line.strip():
                 blank_lines += 1
                 continue
 
+            input_nonblank_rows += 1
             try:
-                record, current_date, warnings = parse_line(
-                    line, current_date
+                record, _, warnings = parse_line(
+                    line, context=context
                 )
 
                 timestamp = record["timestamp"].isoformat(
@@ -251,44 +303,41 @@ def process_files(archive, selected_files, output_dir):
                         "original_line": line,
                     })
 
-                if timestamp in seen:
-                    previous = seen[timestamp]
-
-                    same_record = all(
-                        record[column] == previous["record"][column]
-                        for column in COLUMNS
-                    )
-
-                    if same_record:
-                        duplicate_rows.append({
-                            "source_file": filename,
-                            "line_number": line_number,
-                            "timestamp": timestamp,
-                            "reason": "Identical duplicate",
-                        })
-                    else:
-                        conflicting_rows.append({
-                            "timestamp": timestamp,
-                            "kept_source": previous["source"],
-                            "kept_line": previous["line"],
-                            "conflict_source": filename,
-                            "conflict_line": line_number,
-                            "kept_record": json.dumps(
-                                previous["record"]
-                            ),
-                            "conflict_record": json.dumps(record),
-                            "reason": "Different values for same timestamp",
-                        })
-
-                    continue
-
-                seen[timestamp] = {
+                entry = {
                     "record": record,
                     "source": filename,
                     "line": line_number,
                 }
+                if timestamp not in seen:
+                    seen[timestamp] = entry
+                    continue
 
-                clean_rows.append(record)
+                fingerprint = tuple(record[column] for column in COLUMNS)
+                if timestamp in conflicting_records:
+                    previous = conflicting_records[timestamp].get(fingerprint)
+                else:
+                    first = seen[timestamp]
+                    first_fingerprint = tuple(
+                        first["record"][column] for column in COLUMNS
+                    )
+                    previous = first if fingerprint == first_fingerprint else None
+
+                if previous is not None:
+                    previous["occurrences"] = previous.get("occurrences", 1) + 1
+                    duplicate_rows.append({
+                        "source_file": filename,
+                        "line_number": line_number,
+                        "timestamp": timestamp,
+                        "duplicate_of_source": previous["source"],
+                        "duplicate_of_line": previous["line"],
+                        "reason": "Identical normalised duplicate",
+                    })
+                else:
+                    if timestamp not in conflicting_records:
+                        conflicting_records[timestamp] = {
+                            first_fingerprint: seen[timestamp]
+                        }
+                    conflicting_records[timestamp][fingerprint] = entry
 
             except (ValueError, OverflowError) as error:
                 rejected_rows.append({
@@ -298,7 +347,29 @@ def process_files(archive, selected_files, output_dir):
                     "reason": str(error),
                 })
 
+    # Export no winner for an unresolved conflicting timestamp.
+    clean_rows = [
+        entry["record"] for timestamp, entry in seen.items()
+        if timestamp not in conflicting_records
+    ]
     clean_rows.sort(key=lambda row: row["timestamp"])
+    for timestamp, variants in sorted(conflicting_records.items()):
+        for entry in variants.values():
+            conflicting_rows.append({
+                "timestamp": timestamp,
+                "source_file": entry["source"],
+                "line_number": entry["line"],
+                "record": json.dumps(entry["record"], sort_keys=True),
+                "identical_occurrences": entry.get("occurrences", 1),
+                "reason": "Different values for same timestamp; quarantined",
+            })
+
+    accounted_rows = (
+        len(clean_rows) + len(rejected_rows)
+        + len(duplicate_rows) + len(conflicting_rows)
+    )
+    if accounted_rows != input_nonblank_rows:
+        raise RuntimeError("Input/output row accounting failed; no files were written")
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -313,7 +384,10 @@ def process_files(archive, selected_files, output_dir):
     write_csv(
         output_dir / "duplicate_rows.csv",
         duplicate_rows,
-        ["source_file", "line_number", "timestamp", "reason"],
+        [
+            "source_file", "line_number", "timestamp",
+            "duplicate_of_source", "duplicate_of_line", "reason",
+        ],
     )
 
     write_csv(
@@ -321,12 +395,10 @@ def process_files(archive, selected_files, output_dir):
         conflicting_rows,
         [
             "timestamp",
-            "kept_source",
-            "kept_line",
-            "conflict_source",
-            "conflict_line",
-            "kept_record",
-            "conflict_record",
+            "source_file",
+            "line_number",
+            "record",
+            "identical_occurrences",
             "reason",
         ],
     )
@@ -345,18 +417,15 @@ def process_files(archive, selected_files, output_dir):
 
     summary = {
         "files_processed": len(selected_files),
-        "input_nonblank_rows": (
-            len(clean_rows)
-            + len(rejected_rows)
-            + len(duplicate_rows)
-            + len(conflicting_rows)
-        ),
+        "input_nonblank_rows": input_nonblank_rows,
         "blank_lines": blank_lines,
         "clean_rows": len(clean_rows),
         "rejected_rows": len(rejected_rows),
         "duplicate_rows": len(duplicate_rows),
-        "conflicting_timestamps": len(conflicting_rows),
+        "conflicting_timestamps": len(conflicting_records),
+        "conflicting_variants": len(conflicting_rows),
         "quality_warnings": len(warning_rows),
+        "row_accounting_ok": accounted_rows == input_nonblank_rows,
         "first_timestamp": (
             clean_rows[0]["timestamp"] if clean_rows else None
         ),
@@ -381,9 +450,11 @@ def process_files(archive, selected_files, output_dir):
 - Rejected rows: {summary['rejected_rows']}
 - Identical duplicate rows: {summary['duplicate_rows']}
 - Conflicting timestamps: {summary['conflicting_timestamps']}
-- Quality warnings: {summary['quality_warnings']}
+- Conflicting variants quarantined: {summary['conflicting_variants']}
+- Quality warning events: {summary['quality_warnings']}
+- Input/output row accounting passed: {summary['row_accounting_ok']}
 
-## Timestamp range
+## Timestamp range of clean snapshots
 
 - First timestamp: {summary['first_timestamp']}
 - Last timestamp: {summary['last_timestamp']}
@@ -392,33 +463,47 @@ def process_files(archive, selected_files, output_dir):
 
 1. Read PBS log files from the supplied ZIP archive.
 2. Support both historical log formats.
-3. Require timestamp and core job and node measurements.
+3. Require a valid timestamp and nonempty jobs_running, jobs_queued,
+   nodes_running, nodes_offline and nodes_total measurements.
 4. Treat optional measurements as missing when absent.
 5. Convert integer and percentage measurements to numeric values.
 6. Preserve CPU percentages above 100% and flag them.
 7. Retain node-count inconsistencies and flag them.
 8. Retain zero-node snapshots with missing percentages.
-9. Infer time-only dates from the preceding dated record.
+9. Infer time-only dates only from an established explicit date with
+   nondecreasing times. A valid dated timestamp updates date context
+   even when that record's metrics are rejected.
 10. Reject records with invalid or missing required information.
 11. Identify and record identical duplicates.
-12. Preserve conflicting records for manual review.
-13. Retain the first valid occurrence provisionally.
+12. Count distinct conflicting timestamps separately from their variants.
+13. Quarantine every distinct variant at a conflicting timestamp;
+    exclude that timestamp from snapshots.csv until resolved.
 14. Sort clean snapshots chronologically.
+15. Verify that nonblank input rows equal clean rows plus rejected rows
+    plus extra identical duplicates plus distinct conflicting variants.
 
 ## Important limitations
 
-Time-only dates are inferred from the preceding dated record
-within the same file. These inferred dates are flagged for review.
+Time-only dates use explicit date context within the same file.
+Inferred dates are flagged for review. Backwards time-only values,
+including ambiguous midnight rollovers, are rejected and clear the
+date context. Following time-only records require a new explicit date.
+No next-day rollover is guessed automatically.
 
-Conflicting snapshots are not silently discarded:
-their original metric values are preserved in the conflict report.
-The first valid record is retained provisionally in snapshots.csv.
+Every distinct conflicting snapshot is preserved in the conflict report,
+with source references and its number of identical occurrences.
+Extra identical occurrences are listed separately in duplicate_rows.csv.
+No unresolved conflicting timestamp appears in snapshots.csv.
 
 The source timezone has not been established. No timezone
 has been assigned to the timestamps.
 
 Missing values remain empty; they are not replaced with zero.
-Quality warnings do not automatically cause a record to be rejected.
+Missing required measurements cause rejection; optional measurements
+may be empty. The required-field list must agree with the schema in #5.
+Quality warnings are individual events, not counts of distinct bad rows;
+missing optional historical measurements also contribute warning events.
+Warnings do not automatically cause a record to be rejected.
 """
 
     (output_dir / "cleaning_report.md").write_text(
