@@ -7,6 +7,8 @@ resource usage over time and develop an interactive dashboard.
 
 Follow the instructions in [docs/setup.md](docs/setup.md).
 
+For database setup, see [docs/database.md](docs/database.md).
+
 ## Project files
 
 - docs/: project documentation.
