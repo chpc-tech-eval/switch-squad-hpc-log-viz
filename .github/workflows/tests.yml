@@ -1,0 +1,26 @@
+name: Cleaning pipeline tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the project
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: Run all cleaning tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
