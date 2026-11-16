@@ -14,6 +14,10 @@ Verified locally with Grafana 12.3.0, running as a Linux container, and Chrome
   are not interpolated. Statistics show exact counts and two CPU decimals.
 - Linux Python tooling container compared every database row/field with the CSV.
 - Linux disposable-database tests: 43 passed plus 13 subtests.
+- Full Linux archive cleaning reproduced all documented accounting totals;
+  Linux repeat ingestion skipped 903,522 identical rows with zero failures.
+- GitHub CI for PR #29 passed all three jobs, including full historical
+  cleaning, ingestion, comparison and Grafana-query smoke checks.
 
 Machine-readable evidence: dashboard-api.json, browser-qa.json and
 database-verification.json. SQL output and descriptive findings are preserved in

@@ -1,5 +1,9 @@
 # Development setup
 
+For the current complete workflow, use [workflow.md](workflow.md), which uses
+Python 3.13 and verified Linux containers. The notes below preserve the initial
+environment record and should not be read as the current version requirement.
+
 ## Purpose
 
 This project processes historical PBS cluster snapshots to analyse

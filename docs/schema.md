@@ -12,9 +12,9 @@ identifies a snapshot within this single-cluster dataset. These are aggregate
 cluster measurements, not individual job or node records.
 
 The canonical intermediate file is `data/cleaned/snapshots.csv`.
-Database-specific table definitions and integer storage widths will be mapped
-when the time-series database is selected. This document does not create a
-database table.
+The TimescaleDB mapping is implemented in `db/schema.sql`; integer counts use
+BIGINT and the loader checks its nonnegative range. This document describes the
+logical schema; the SQL file creates the database table.
 
 ## Column definitions
 
