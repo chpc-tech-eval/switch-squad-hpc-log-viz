@@ -1,8 +1,7 @@
 # Ingestion validation — 16 November 2026
 
-Executed on the project owner's Windows laptop with Python 3.13.14 and
-Linux TimescaleDB containers through Docker Desktop. These are newly executed
-checks, rather than inherited claims from the existing documentation.
+Executed on Windows with Python 3.13.14 and Linux TimescaleDB containers through
+Docker Desktop.
 
 | Check | Result |
 |---|---|

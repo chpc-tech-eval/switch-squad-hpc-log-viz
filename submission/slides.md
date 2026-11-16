@@ -6,7 +6,7 @@ Editable narrative source. Speaker allocation and organiser timing remain to be 
 
 - Switch Squad · SCC 2026
 - A reproducible historical HPC dashboard
-- Prepared 16 November 2026 · team review pending
+- Prepared 16 November 2026
 
 Speaker notes: Introduce the team. We process historical whole-cluster snapshots, not individual job histories.
 
@@ -89,7 +89,7 @@ Speaker notes: Follow submission/demo.md. Allow six minutes if the organiser per
 - Raw logs → validated storage → supported analysis → interactive dashboard
 - Reproducible Linux/Windows workflow and real-database tests
 - Evidence-backed poster, journal, slides and demo guide
-- Next: team review, format confirmation and rehearsal
+- Next: confirm requirements and rehearse the presentation
 - Repository: github.com/chpc-tech-eval/switch-squad-hpc-log-viz
 
-Speaker notes: Conclude with the actual deliverables. Team members review and merge PRs. We still need provider clarification on timezone/CPU units and organiser clarification on formats and unsupported metrics.
+Speaker notes: Conclude with the deliverables and remaining questions: source timezone, CPU units, organiser formats and unsupported metrics.

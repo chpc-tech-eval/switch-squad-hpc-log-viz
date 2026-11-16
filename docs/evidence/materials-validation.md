@@ -6,14 +6,14 @@ Actual Chrome exports were opened programmatically with pypdf:
 |---|---:|---|
 | Poster | 1 | A1 portrait, approximately 594 × 841 mm |
 | Slides | 10 | 16:9, 960 × 540 PDF points |
-| Journal | 3 | A4 |
+| Journal | 2 | A4 |
 
 Every PDF page contains extractable text. All linked screenshot/diagram assets
 loaded before export. Browser layout checks found no overflow in the poster or
 any slide. Poster and title-slide previews were visually inspected. Editable
 PowerPoint reopened successfully with ten slides and populated speaker notes.
-Native PowerPoint/LibreOffice rendering was not available in this session; its
-final appearance should be checked on the presentation laptop during rehearsal.
+Native PowerPoint/LibreOffice rendering has not been verified; its final
+appearance should be checked on the presentation laptop during rehearsal.
 The separately generated slide PDF was exported and checked.
 
 The poster PDF uses explicit physical dimensions, rather than relying on a

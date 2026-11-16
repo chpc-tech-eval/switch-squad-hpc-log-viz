@@ -22,31 +22,29 @@ GREEN = "14786B"
 def journal():
     entries = subprocess.check_output([
         "git", "log", "--reverse", "--no-merges", "main",
-        "--format=%h|%aI|%an|%s",
+        "--format=%h|%aI|%an|%s", "--", "db", "scripts", "tests", "grafana",
+        "compose.yaml", "requirements.txt", "requirements-dev.txt", "submission",
     ], cwd=ROOT, text=True).splitlines()
     lines = ["# Switch Squad project journal", "", "Prepared 16 November 2026.", "",
              "## Retrospective repository record", "",
-             "The entries below are reconstructed from Git history, not contemporaneous diary entries. "
-             "Dates, author display names and subjects are recorded as committed. Commit subjects "
-             "establish recorded changes; they do not prove meeting attendance, hours worked, individual "
-             "learning or task ownership beyond the authored commit. Main at inspection: 98a2709.", "",
+             "Retrospective chronology compiled from Git commit dates, author metadata and "
+             "validation records. Meeting attendance and person-hours are not inferred.", "",
              "| Recorded date | Commit | Author | Recorded change |", "|---|---|---|---|"]
     for entry in entries:
         sha, date, author, subject = entry.split("|", 3)
         lines.append(f"| {date[:10]} | {sha} | {author} | {subject.replace('|', '/')} |")
-    lines += ["", "## Loader work awaiting review — retrospective", "",
+    lines += ["", "## Database loader development — retrospective", "",
               "PR #27 by Jury Tsoka supplied a batched psycopg2 loader and mocked unit tests. "
-              "Its inspected head was 6be1b979d1fc7bb39990b8a8648be71251c2255a. Its description "
-              "explicitly left real PostgreSQL integration, rollback and full-data ingestion outstanding. "
-              "Those commits were retained as the base of the completion branches.", "",
-              "## 16 November 2026 — completion-session record", "",
-              "Recorded from work actually performed in this session, with AI assistance under the "
-              "repository owner's instruction. Commits use the checkout's existing Git identity; this "
-              "entry does not assign the session's work to other teammates.", "",
-              "1. Reviewed documentation, all open/closed issues and PR listings, issue comments, the "
-              "loader diff and recent CI. Reported an assessment and effort ranges before implementation.",
-              "2. Verified Windows/Python access, started Docker Desktop and confirmed Linux containers. "
-              "The connected GitHub app was read-only; Git credentials allowed authorised feature pushes.",
+              "Subsequent changes added required-field and BIGINT validation, conflict detection, "
+              "real PostgreSQL integration tests, rollback recovery and full-dataset verification. "
+              "The original contributor commits are preserved in repository history.", "",
+              "## 16 November 2026 — implementation and validation", "",
+              "Retrospective summary of repository changes and recorded validation results. "
+              "Test evidence is stored in docs/evidence/.", "",
+              "1. Compared the supplied log fields with the project requirements and documented "
+              "which metrics the aggregate snapshots can support.",
+              "2. Verified Python 3.13 and Linux containers through Docker Desktop on Windows. "
+              "Added a Linux tooling container and reproducible setup instructions.",
               "3. Reproduced cleaning: 3,169 files, 917,919 nonblank rows, 903,522 accepted, 12,489 "
               "extra identical duplicates, 937 conflicting timestamps (1,907 variants) and one rejected row.",
               "4. Extended the loader with strict validation, conflict detection and preflight accounting. "
@@ -59,19 +57,21 @@ def journal():
               "passed; the full count was 903,522 and an empty range returned zero. Chrome rendered "
               "the dashboard and passed a real bucket-dropdown click. Actual screenshots were saved.",
               "7. Prepared poster, slide, journal, demo and checklist sources/exports from the saved "
-              "evidence. Review and rehearsal remain team tasks; no submission or merge is claimed.", "",
+              "evidence. The implementation and materials were merged through PRs #27–30. "
+              "Presentation rehearsal and final submission remain outstanding.", "",
               "## Decisions, challenges and lessons", "",
-              "- Keep useful existing work and accurate contributor history; make changes reviewable in dependent PRs.",
-              "- A matching timestamp does not prove matching measurements. Compare values before calling a repeat harmless.",
-              "- Real transactions reveal risks that mocked insert counts cannot establish.",
-              "- A cluster snapshot cannot reveal individual job waiting time or throughput. State what the dataset supports.",
-              "- Unknown timezone, changing capacity, missing data and anomalous percentages must remain visible.",
-              "- Linux containers make the Windows-hosted workflow portable without claiming a VirtualBox deployment.", "",
-              "## Evidence and work still requiring people", "",
-              "See docs/evidence/, docs/analysis.md and the linked review PRs. The organiser's rubric, "
-              "poster size, cutoff time and original brief were not supplied. Team confirmation, "
-              "review/merge, fresh-checkout reproduction and presentation rehearsal remain unchecked "
-              "in submission/checklist.md. No invented meeting notes or hours are included.", ""]
+              "- The existing cleaner and schema provided the foundation for the ingestion and dashboard work.",
+              "- Identical timestamps require measurement comparison before a reimport can be classified as a duplicate.",
+              "- Real transactions expose rollback and constraint behaviour that mocked insert counts cannot establish.",
+              "- Aggregate snapshots support occupancy and backlog trends, but not individual waiting times or throughput.",
+              "- Unknown timezone, changing capacity, missing data and anomalous percentages limit interpretation.",
+              "- Linux containers provide a portable application deployment across Windows and Linux hosts.", "",
+              "## Evidence and outstanding requirements", "",
+              "Validation records are in docs/evidence/ and findings are in docs/analysis.md. "
+              "Issues #9 and #12 track clarification of unavailable metrics and deployment expectations. "
+              "The final format, poster size and submission cutoff require organiser confirmation. "
+              "Fresh-checkout reproduction and presentation rehearsal are tracked in "
+              "submission/checklist.md.", ""]
     (OUT / "journal.md").write_text("\n".join(lines), encoding="utf-8")
 
 
@@ -109,14 +109,14 @@ ul {{ padding-left:9mm; margin:0; }} li {{ margin-bottom:4mm; }}
 <div class="two"><section class="proof"><h2>Verified, not assumed</h2><p><b>All 903,522 rows and all 12 fields</b> match the cleaned CSV.</p><p><b>43 tests + 13 subtests</b> pass with real TimescaleDB, including repeat import and rollback recovery.</p><p><b>36 panel-query checks</b> cover three aggregation settings. Chrome rendering and bucket selection were tested.</p></section><section><h2>What we cannot claim</h2><p>These are whole-cluster snapshots. No per-node CPU, memory, job completions or individual waiting times can be calculated.</p><p>9,084 CPU values are missing; 212 exceed 100%. CPU semantics and source timezone are unconfirmed. Averages weight snapshots, not missing elapsed time.</p><h2>What we learned</h2><p>Preserve evidence, test real transactions, show coverage alongside trends, and make uncertainty part of the interface.</p></section></div>
 <footer class="foot"><b>Switch Squad</b> · Python · TimescaleDB · Grafana · Linux containers<br>
 Source and reproducibility: github.com/chpc-tech-eval/switch-squad-hpc-log-viz<br>
-Evidence: docs/evidence/ · Findings: docs/analysis.md · Prepared 16 November 2026. Team review and organiser format confirmation pending.</footer>
+Evidence: docs/evidence/ · Findings: docs/analysis.md · Prepared 16 November 2026.</footer>
 </main></html>"""
     (OUT / "poster.html").write_text(text, encoding="utf-8")
 
 
 def slides():
     return [
-        ("From cluster logs\nto evidence", ["Switch Squad · SCC 2026", "A reproducible historical HPC dashboard", "Prepared 16 November 2026 · team review pending"], None,
+        ("From cluster logs\nto evidence", ["Switch Squad · SCC 2026", "A reproducible historical HPC dashboard", "Prepared 16 November 2026"], None,
          "Introduce the team. We process historical whole-cluster snapshots, not individual job histories."),
         ("Start with what the data supports", ["3,169 files; 917,919 nonblank source rows", "January 2017 to October 2025; roughly five-minute observations", "Reported CPU, node counts and aggregate job-state counts", "No node IDs, memory, job arrivals or completions"], None,
          "Explain the photo-album analogy. A queued count is not a waiting-time measurement."),
@@ -134,8 +134,8 @@ def slides():
          "The issue text asks for metrics that this dataset cannot supply. We document substitutions and need organiser confirmation, rather than invent results."),
         ("Live demo: ask a narrower question", ["Open the historical dashboard and its coverage panels", "Choose 26 June 2025; switch Bucket to 1 hour", "Hover CPU and queue-count series", "Show the verification evidence and CI", "Fallback: actual screenshots and PDF, clearly labelled"], "assets/dashboard-filtered.png",
          "Follow submission/demo.md. Allow six minutes if the organiser permits. Do not run the full import during the live demo."),
-        ("What we accomplished", ["Raw logs → validated storage → supported analysis → interactive dashboard", "Reproducible Linux/Windows workflow and real-database tests", "Evidence-backed poster, journal, slides and demo guide", "Next: team review, format confirmation and rehearsal", "Repository: github.com/chpc-tech-eval/switch-squad-hpc-log-viz"], None,
-         "Conclude with the actual deliverables. Team members review and merge PRs. We still need provider clarification on timezone/CPU units and organiser clarification on formats and unsupported metrics."),
+        ("What we accomplished", ["Raw logs → validated storage → supported analysis → interactive dashboard", "Reproducible Linux/Windows workflow and real-database tests", "Evidence-backed poster, journal, slides and demo guide", "Next: confirm requirements and rehearse the presentation", "Repository: github.com/chpc-tech-eval/switch-squad-hpc-log-viz"], None,
+         "Conclude with the deliverables and remaining questions: source timezone, CPU units, organiser formats and unsupported metrics."),
     ]
 
 

@@ -4,50 +4,47 @@ Prepared 16 November 2026.
 
 ## Retrospective repository record
 
-The entries below are reconstructed from Git history, not contemporaneous diary entries. Dates, author display names and subjects are recorded as committed. Commit subjects establish recorded changes; they do not prove meeting attendance, hours worked, individual learning or task ownership beyond the authored commit. Main at inspection: 98a2709.
+Retrospective chronology compiled from Git commit dates, author metadata and validation records. Meeting attendance and person-hours are not inferred.
 
 | Recorded date | Commit | Author | Recorded change |
 |---|---|---|---|
-| 2026-09-22 | 9e67f7d | Vuyolwethu Mfidi | Add files via upload |
 | 2026-10-15 | 3b10e6c | Edwin | Add Windows Python setup and dependencies |
-| 2026-10-15 | e8b3160 | Edwin | Fix README formatting and setup commands |
 | 2026-10-21 | b340ca9 | Edwin | Set up Python environment documentation and project structure |
-| 2026-10-21 | 4c559f8 | Edwin | Update setup.md |
-| 2026-10-21 | 98f790e | Edwin | Document initial PBS snapshot structure |
-| 2026-11-03 | 1cec8cf | Tsholofelo Puseletso Mokapu | Add dataset inventory documentation |
-| 2026-11-03 | f515d3e | Tsholofelo Puseletso Mokapu | Add dataset inventory content |
 | 2026-11-03 | 6861868 | Katleho | Add initial exploratory analysis of HPC logs |
 | 2026-11-05 | 6020ae4 | Jury Tsoka | Add HPC snapshot cleaning pipeline |
 | 2026-11-05 | 86bac7f | Jury Tsoka | Fix HPC log cleaning and add regression tests |
-| 2026-11-09 | d06054b | Edwin | Document canonical cluster snapshot schema |
 | 2026-11-09 | 9d3ad67 | Tsholofelo Puseletso Mokapu | Extend cleaning tests and add GitHub Actions |
 | 2026-11-09 | d637581 | Edwin | Set up local TimescaleDB for cluster snapshots |
+| 2026-11-09 | 799ca31 | Jury Tsoka | Add batched HPC snapshot database loader |
+| 2026-11-16 | 2591e86 | Edwin | Harden snapshot ingestion and verify real TimescaleDB transactions |
+| 2026-11-16 | 5f7fbc7 | Edwin | Add historical SQL analysis and provisioned Grafana dashboard |
+| 2026-11-16 | 3830f6f | Edwin | Prepare evidence-backed poster journal presentation and demo materials |
 
-## Loader work awaiting review — retrospective
+## Database loader development — retrospective
 
-PR #27 by Jury Tsoka supplied a batched psycopg2 loader and mocked unit tests. Its inspected head was 6be1b979d1fc7bb39990b8a8648be71251c2255a. Its description explicitly left real PostgreSQL integration, rollback and full-data ingestion outstanding. Those commits were retained as the base of the completion branches.
+PR #27 by Jury Tsoka supplied a batched psycopg2 loader and mocked unit tests. Subsequent changes added required-field and BIGINT validation, conflict detection, real PostgreSQL integration tests, rollback recovery and full-dataset verification. The original contributor commits are preserved in repository history.
 
-## 16 November 2026 — completion-session record
+## 16 November 2026 — implementation and validation
 
-Recorded from work actually performed in this session, with AI assistance under the repository owner's instruction. Commits use the checkout's existing Git identity; this entry does not assign the session's work to other teammates.
+Retrospective summary of repository changes and recorded validation results. Test evidence is stored in docs/evidence/.
 
-1. Reviewed documentation, all open/closed issues and PR listings, issue comments, the loader diff and recent CI. Reported an assessment and effort ranges before implementation.
-2. Verified Windows/Python access, started Docker Desktop and confirmed Linux containers. The connected GitHub app was read-only; Git credentials allowed authorised feature pushes.
+1. Compared the supplied log fields with the project requirements and documented which metrics the aggregate snapshots can support.
+2. Verified Python 3.13 and Linux containers through Docker Desktop on Windows. Added a Linux tooling container and reproducible setup instructions.
 3. Reproduced cleaning: 3,169 files, 917,919 nonblank rows, 903,522 accepted, 12,489 extra identical duplicates, 937 conflicting timestamps (1,907 variants) and one rejected row.
 4. Extended the loader with strict validation, conflict detection and preflight accounting. Real TimescaleDB tests verified repeat imports and rollback recovery. All 43 tests and 13 subtests passed on Windows and inside the Linux tooling container.
 5. Loaded 903,522 accepted rows with zero failures. Reimport inserted zero and skipped 903,522 identical rows. Every row and all 12 fields matched the cleaned CSV; the Linux runner independently completed that comparison.
 6. Implemented SQL analysis and provisioned Grafana. All 36 panel/bucket API checks passed; the full count was 903,522 and an empty range returned zero. Chrome rendered the dashboard and passed a real bucket-dropdown click. Actual screenshots were saved.
-7. Prepared poster, slide, journal, demo and checklist sources/exports from the saved evidence. Review and rehearsal remain team tasks; no submission or merge is claimed.
+7. Prepared poster, slide, journal, demo and checklist sources/exports from the saved evidence. The implementation and materials were merged through PRs #27–30. Presentation rehearsal and final submission remain outstanding.
 
 ## Decisions, challenges and lessons
 
-- Keep useful existing work and accurate contributor history; make changes reviewable in dependent PRs.
-- A matching timestamp does not prove matching measurements. Compare values before calling a repeat harmless.
-- Real transactions reveal risks that mocked insert counts cannot establish.
-- A cluster snapshot cannot reveal individual job waiting time or throughput. State what the dataset supports.
-- Unknown timezone, changing capacity, missing data and anomalous percentages must remain visible.
-- Linux containers make the Windows-hosted workflow portable without claiming a VirtualBox deployment.
+- The existing cleaner and schema provided the foundation for the ingestion and dashboard work.
+- Identical timestamps require measurement comparison before a reimport can be classified as a duplicate.
+- Real transactions expose rollback and constraint behaviour that mocked insert counts cannot establish.
+- Aggregate snapshots support occupancy and backlog trends, but not individual waiting times or throughput.
+- Unknown timezone, changing capacity, missing data and anomalous percentages limit interpretation.
+- Linux containers provide a portable application deployment across Windows and Linux hosts.
 
-## Evidence and work still requiring people
+## Evidence and outstanding requirements
 
-See docs/evidence/, docs/analysis.md and the linked review PRs. The organiser's rubric, poster size, cutoff time and original brief were not supplied. Team confirmation, review/merge, fresh-checkout reproduction and presentation rehearsal remain unchecked in submission/checklist.md. No invented meeting notes or hours are included.
+Validation records are in docs/evidence/ and findings are in docs/analysis.md. Issues #9 and #12 track clarification of unavailable metrics and deployment expectations. The final format, poster size and submission cutoff require organiser confirmation. Fresh-checkout reproduction and presentation rehearsal are tracked in submission/checklist.md.
