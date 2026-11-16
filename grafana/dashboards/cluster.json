@@ -1,0 +1,747 @@
+{
+  "uid": "switch-squad-hpc",
+  "title": "Switch Squad · Cluster history",
+  "tags": [
+    "SCC",
+    "PBS",
+    "historical"
+  ],
+  "schemaVersion": 41,
+  "version": 1,
+  "editable": false,
+  "timezone": "utc",
+  "time": {
+    "from": "2017-01-22T08:25:00Z",
+    "to": "2025-10-03T15:10:00Z"
+  },
+  "refresh": "",
+  "panels": [
+    {
+      "id": 1,
+      "title": "SWITCH SQUAD  /  Historical cluster observatory",
+      "type": "text",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 5
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "## Eight years of cluster snapshots\nExplore reported CPU, nodes and job backlog. Change the **date range** and **bucket** above; drag across a chart to zoom.\n\n**Source wall-clock time; timezone unconfirmed.** UTC display is a plotting convention only. These are cluster aggregates: per-node usage, memory, job throughput and waiting times are unavailable. Averages weight observed snapshots equally. Missing buckets stay empty; percentages above 100% are retained."
+      }
+    },
+    {
+      "id": 2,
+      "title": "Accepted snapshots in range",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 5,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          },
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT count(*) AS \"value\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\")",
+          "format": "table",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Mean reported CPU",
+      "type": "stat",
+      "gridPos": {
+        "x": 6,
+        "y": 5,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          },
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT avg(cpu_percent) AS \"value\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\")",
+          "format": "table",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Peak queued-job count",
+      "type": "stat",
+      "gridPos": {
+        "x": 12,
+        "y": 5,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          },
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT max(jobs_queued) AS \"value\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\")",
+          "format": "table",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Snapshots missing CPU",
+      "type": "stat",
+      "gridPos": {
+        "x": 18,
+        "y": 5,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          },
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto"
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT count(*) FILTER (WHERE cpu_percent IS NULL) AS \"value\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\")",
+          "format": "table",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Reported CPU percentage",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 9,
+        "w": 12,
+        "h": 9
+      },
+      "description": "Snapshot means per selected bucket. Source timezone unknown; no gap filling. Job counts are not throughput or waiting time.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT bucket AT TIME ZONE 'UTC' AS \"time\", \"Reported CPU %\" FROM (SELECT time_bucket_gapfill('${bucket}'::interval, \"timestamp\") AS bucket, avg(cpu_percent) AS \"Reported CPU %\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\") GROUP BY 1) series ORDER BY 1",
+          "format": "time_series",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Jobs: occupancy and backlog",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 9,
+        "w": 12,
+        "h": 9
+      },
+      "description": "Snapshot means per selected bucket. Source timezone unknown; no gap filling. Job counts are not throughput or waiting time.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT bucket AT TIME ZONE 'UTC' AS \"time\", \"Running\", \"Queued\", \"Held\", \"Exiting\" FROM (SELECT time_bucket_gapfill('${bucket}'::interval, \"timestamp\") AS bucket, avg(jobs_running) AS \"Running\", avg(jobs_queued) AS \"Queued\", avg(jobs_held) AS \"Held\", avg(jobs_exiting) AS \"Exiting\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\") GROUP BY 1) series ORDER BY 1",
+          "format": "time_series",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Nodes: reported counts",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 18,
+        "w": 12,
+        "h": 9
+      },
+      "description": "Snapshot means per selected bucket. Source timezone unknown; no gap filling. Job counts are not throughput or waiting time.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT bucket AT TIME ZONE 'UTC' AS \"time\", \"Running nodes\", \"Offline nodes\", \"Total nodes\" FROM (SELECT time_bucket_gapfill('${bucket}'::interval, \"timestamp\") AS bucket, avg(nodes_running) AS \"Running nodes\", avg(nodes_offline) AS \"Offline nodes\", avg(nodes_total) AS \"Total nodes\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\") GROUP BY 1) series ORDER BY 1",
+          "format": "time_series",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Running-node percentage",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 18,
+        "w": 12,
+        "h": 9
+      },
+      "description": "Snapshot means per selected bucket. Source timezone unknown; no gap filling. Job counts are not throughput or waiting time.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT bucket AT TIME ZONE 'UTC' AS \"time\", \"Reported running-node %\" FROM (SELECT time_bucket_gapfill('${bucket}'::interval, \"timestamp\") AS bucket, avg(nodes_running_percent) AS \"Reported running-node %\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\") GROUP BY 1) series ORDER BY 1",
+          "format": "time_series",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Observation coverage by bucket",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 27,
+        "w": 12,
+        "h": 8
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT bucket AT TIME ZONE 'UTC' AS \"time\", \"Snapshots\", \"CPU-present snapshots\" FROM (SELECT time_bucket_gapfill('${bucket}'::interval, \"timestamp\") AS bucket, count(*) AS \"Snapshots\", count(cpu_percent) AS \"CPU-present snapshots\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\") GROUP BY 1) series ORDER BY 1",
+          "format": "time_series",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Hour-of-day pattern (source clock)",
+      "type": "table",
+      "gridPos": {
+        "x": 12,
+        "y": 27,
+        "w": 12,
+        "h": 8
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT extract(hour FROM \"timestamp\")::int AS \"Hour\", count(*) AS \"Snapshots\", count(cpu_percent) AS \"CPU samples\", avg(cpu_percent) AS \"Mean reported CPU %\", avg(jobs_queued) AS \"Mean queued jobs\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\") GROUP BY 1 ORDER BY 1",
+          "format": "table",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Peak daily means · at least 200 CPU samples",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 35,
+        "w": 12,
+        "h": 8
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT time_bucket('1 day', \"timestamp\") AS \"Source day\", count(cpu_percent) AS \"CPU samples\", avg(cpu_percent) AS \"Mean reported CPU %\", max(jobs_queued) AS \"Peak queued jobs\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\") GROUP BY 1 HAVING count(cpu_percent) >= 200 ORDER BY 3 DESC, 1 LIMIT 10",
+          "format": "table",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Weekday patterns · Monday = 1",
+      "type": "table",
+      "gridPos": {
+        "x": 12,
+        "y": 35,
+        "w": 12,
+        "h": 8
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "hpc-timescale"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "hpc-timescale"
+          },
+          "rawSql": "SELECT extract(isodow FROM \"timestamp\")::int AS \"Weekday\", count(*) AS \"Snapshots\", count(cpu_percent) AS \"CPU samples\", avg(cpu_percent) AS \"Mean reported CPU %\", avg(jobs_queued) AS \"Mean queued jobs\" FROM public.cluster_snapshots WHERE $__timeFilter(\"timestamp\") GROUP BY 1 ORDER BY 1",
+          "format": "table",
+          "rawQuery": true
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Data quality and interpretation",
+      "type": "text",
+      "gridPos": {
+        "x": 0,
+        "y": 43,
+        "w": 24,
+        "h": 5
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "spanNulls": false,
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "### Read the gaps as carefully as the peaks\nThe supplied archive produced **903,522 accepted snapshots**, **12,489 extra identical duplicates**, **937 conflicting timestamps** (all variants quarantined), and **1 rejected row**. These are full-archive cleaning totals, independent of the selected range.\n\nCPU units and collection semantics remain unconfirmed. Zero reported CPU does not prove hardware idleness. Cluster capacity changed across the archive. The daily peak table uses a 200 CPU-sample threshold (a usual five-minute day has 288 samples). Compare narrower periods before drawing operational conclusions. See `docs/analysis.md` and the companion quality CSVs."
+      }
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "bucket",
+        "label": "Bucket",
+        "type": "custom",
+        "query": "1 hour,1 day,1 week",
+        "current": {
+          "text": "1 day",
+          "value": "1 day"
+        },
+        "options": [
+          {
+            "text": "1 hour",
+            "value": "1 hour",
+            "selected": false
+          },
+          {
+            "text": "1 day",
+            "value": "1 day",
+            "selected": true
+          },
+          {
+            "text": "1 week",
+            "value": "1 week",
+            "selected": false
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+.git
+.env
+.venv
+data
+artifacts
+logs.zip
+*.log
+submission
+docs

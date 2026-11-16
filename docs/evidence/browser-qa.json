@@ -1,0 +1,40 @@
+{
+  "browser": "157.0.8103.52",
+  "overview_loaded": true,
+  "absolute_date_filter_loaded": true,
+  "hour_bucket_loaded": true,
+  "bucket_dropdown_clicked": true,
+  "query_http_statuses": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "page_errors": [],
+  "screenshots": [
+    "dashboard-overview.png",
+    "dashboard-trends.png",
+    "dashboard-filtered.png"
+  ]
+}

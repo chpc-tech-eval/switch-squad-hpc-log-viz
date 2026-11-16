@@ -1,0 +1,18 @@
+apiVersion: 1
+datasources:
+  - name: HPC TimescaleDB
+    uid: hpc-timescale
+    type: grafana-postgresql-datasource
+    access: proxy
+    url: db:5432
+    user: grafana_reader
+    isDefault: true
+    editable: false
+    jsonData:
+      database: hpc_logs
+      sslmode: disable
+      postgresVersion: 1700
+      timescaledb: true
+      maxOpenConns: 5
+    secureJsonData:
+      password: $GRAFANA_DB_PASSWORD
