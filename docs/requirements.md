@@ -5,9 +5,11 @@ closed issue/PR returned by GitHub (24 entries), issue comments, PR #27's two
 commits and complete diff, and recent CI conclusions. Main is 98a2709; loader
 PR head is 6be1b97. PR #27's initial CI failed, then its latest two runs passed.
 Repository files contain no organiser poster template, grading rubric, original
-project brief or presentation duration. Separate GitHub Discussions were not
-available through the connected tooling; no discussion content is claimed as
-reviewed. User-supplied deadline and mandatory deliverables are the submission
+project brief or presentation duration. A later authenticated GraphQL audit
+also read the repository's three Discussions: raw-log provenance (#13), a
+Linux/Ubuntu-WSL suggestion (#16), and a past cleaning-branch merge check (#23).
+Those do not add a VirtualBox requirement or a poster template. User-supplied
+deadline and mandatory deliverables are the submission
 constraints until the organiser provides more detail.
 
 | Requirement | Evidence / implementation | Limitation |

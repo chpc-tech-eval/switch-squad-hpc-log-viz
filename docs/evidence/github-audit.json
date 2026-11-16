@@ -1,0 +1,442 @@
+{
+  "reviewed_on": "2026-11-16",
+  "original_entries": [
+    {
+      "number": 27,
+      "title": "Add batched HPC snapshot database loader",
+      "state": "open",
+      "body": "implements the initial database ingestion pipeline for issue #8.\n\nChanges\n\nAdded db/loader.py for batch-based CSV ingestion.\nAdded PostgreSQL connectivity using psycopg2.\nAdded duplicate timestamp handling.\nAdded validation for numeric values and timestamps.\nAdded ingestion error logging.\nAdded database record-count verification.\nAdded tests/test_loader.py.\nUpdated PostgreSQL dependencies.\n\nTesting\n\n32 tests passed.\n13 subtests passed.\nPython compilation successful.\nGit whitespace checks passed.\nOutstanding work\nPostgreSQL/TimescaleDB integration testing.\nReal database transaction rollback verification.\nFull dataset ingestion and record-count verification.\n\n",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/27",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 26,
+      "title": "Set up local TimescaleDB for cluster snapshots",
+      "state": "closed",
+      "body": "Set up TimescaleDB with a pinned Docker image and persistent storage. Add the 12-column snapshot schema and document connection setup, retention of all historical data, and timestamp handling while the source timezone remains unconfirmed.\n\nVerified on Windows: healthy container, correct schema, reachable database port, and a test record preserved after container recreation. The test table was removed. Historical data loading follows in #8.\n\nCloses #7",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/26",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 25,
+      "title": "Extend cleaning tests and add GitHub Actions",
+      "state": "closed",
+      "body": "Closes #6",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/25",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 24,
+      "title": "Document canonical cluster snapshot schema",
+      "state": "closed",
+      "body": "Closes #5",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/24",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 22,
+      "title": "Add HPC snapshot cleaning pipeline",
+      "state": "closed",
+      "body": "Changes\n\nAdded the Python cleaning script.\n\nAdded data validation and cleaning rules.\n\nHandled missing values and duplicate records.\n\nGenerated cleaning reports and structured CSV outputs.\n\nTesting\n\nTested the cleaning pipeline using the provided sample PBS log.\n\n",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/22",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 21,
+      "title": "Add initial exploratory analysis of HPC logs",
+      "state": "closed",
+      "body": "Closes #3",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/21",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 20,
+      "title": "Add dataset inventory content",
+      "state": "closed",
+      "body": null,
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/20",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 19,
+      "title": "Add dataset inventory documentation",
+      "state": "closed",
+      "body": "## Summary\n- Added dataset inventory documentation\n- Documented the HPC log dataset structure\n- Listed available fields and example records\n- Included a summary of the dataset contents\n\nCloses #2",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/19",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 18,
+      "title": "Document the initial PBS log structure",
+      "state": "closed",
+      "body": "Related to #1",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/18",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 17,
+      "title": "Document the development environment and initial project structure",
+      "state": "closed",
+      "body": "Related to #1.\n\n- Add development setup instructions in docs/setup.md.\n- Record installed Python package versions in requirements.txt.\n- Configure Git to ignore the local environment and Python cache files.\n- Add a project overview linking to the setup instructions.\n\nReviewers: please follow docs/setup.md on your own machines and\nreport your Python version, Pandas version, installation result,\nand any problems.",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/17",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 15,
+      "title": "Document HPC snapshot dataset inventory (Refs #2)",
+      "state": "closed",
+      "body": "## Summary\n- Add a Python inventory script to inspect the historical HPC snapshot logs.\n- Document the dataset source, structure, expected five-minute snapshot interval, time range, and expected metric fields.\n- Report data-quality issues, including empty files, malformed records, missing fields and values, duplicate timestamps, and irregular snapshot intervals.\n- Include a Markdown inventory report and machine-readable JSON results.\n\n## Testing\n- Verified Python syntax using `python -m py_compile scripts/inventory.py`.\n- Ran the inventory script against the supplied log files.\n\nRefs #2",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/15",
+      "reviews": [],
+      "inline_comments": []
+    },
+    {
+      "number": 14,
+      "title": "Add Windows Python setup and dependencies",
+      "state": "closed",
+      "body": "Adds:\n- README with Windows setup instructions and Python version reasoning.\n- requirements.txt with the installed package versions.\n- .gitignore rules for the local Python environment.\n\nVerified that Pandas 3.0.6 installs and imports successfully using Python 3.13.14 on Windows.\n\nTeam review:\n- Review the Python version choice.\n- Follow the setup instructions and report any problems.\n\nRefs #1",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/14",
+      "comments": [
+        {
+          "body": "\r\nI tested the project setup on my computer, which runs Windows 11. I used Git version 2.56.0.windows.2 and Python version 3.15.0.\r\n\r\nThe repository cloned successfully, and I was able to create the virtual environment. I also installed the required packages from the`requirements.txt file.\r\n\r\nThe first installation attempt failed because of download interruptions and a Windows file error. but, I tried again, and the installation completed successfully.\r\n\r\nI tested Pandas to check if it was installed correctly. The test was successful, and the version displayed was 3.0.6.\r\n\r\nOverall, the setup worked successfully after retrying the package installation.",
+          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/pull/14#issuecomment-6203880939"
+        }
+      ],
+      "reviews": [
+        {
+          "state": "COMMENTED",
+          "body": ""
+        },
+        {
+          "state": "COMMENTED",
+          "body": "Installation of virtual environments\n\nI used the Windows 11 version for my environment, git version: 2.56.0.windows.2 and python version: 3.15.0 . \nThe commands for creating the environment ran successfully, but for installing \"requirements.txt\" I got two errors because I missed steps and imported pandas successfully. \nThe setup was overall successful setup. "
+        },
+        {
+          "state": "APPROVED",
+          "body": ""
+        },
+        {
+          "state": "APPROVED",
+          "body": ""
+        }
+      ],
+      "inline_comments": [
+        {
+          "path": "README.md",
+          "body": "My two first attempts to run the code this far gave me an error message. I think I had missed a few steps in the installation process and my PowerShell could not locate the file, but after a few retries, I managed to find my error and the commands ran."
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "Final Project Poster Presentations and Discussions",
+      "state": "open",
+      "body": "Goals: Finalize project and present findings.\n\nTasks:\n\nStudents present their VirtualBox cluster deployment process, challenges faced, and insights gained.\n\nFinalize poster summarizing project journey, setup workflow, and lessons learned.\n\nPrepare slides and live demo for final presentation.",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/12"
+    },
+    {
+      "number": 11,
+      "title": "Build Grafana dashboard, polish and interactivity",
+      "state": "open",
+      "body": "Description: Connect Grafana to the DB and build initial panels.\n\n\nTasks:\n\n-  Connect Grafana data source\n\n- Refine dashboard usability.",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/11"
+    },
+    {
+      "number": 10,
+      "title": "Utilization trend analysis",
+      "state": "open",
+      "body": "Description: Analyze cleaned/stored data for trends and patterns.\n\nTasks:\n\n-  Identify peak usage periods and idle periods, if any.\n\n-  Look for patterns by day-of-week/time-of-day\n\n-  Summarize findings in a short report",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/10"
+    },
+    {
+      "number": 9,
+      "title": "Write core query set",
+      "state": "open",
+      "body": "Description: Queries needed to support dashboard and analysis.\n\nTasks:\n\n-  CPU utilization over time (per node / cluster-wide)\n\n-  Peak usage windows (by hour/day/week)\n\n-  Job throughput and queue wait trends\n\n-  Document queries ",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/9"
+    },
+    {
+      "number": 8,
+      "title": "Load pipeline — cleaned data into DB",
+      "state": "open",
+      "body": "Description: Script to ingest cleaned data into the time-series DB.\n\nTasks:\n\n-  Write loader script (batch insert)\n\n-  Validate row counts and spot-check values post-load\n\n-  Add logging for ingestion errors",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/8"
+    },
+    {
+      "number": 7,
+      "title": "Stand up time-series database",
+      "state": "closed",
+      "body": "Description: Deploy chosen DB (e.g., InfluxDB/TimescaleDB) locally or on VM.\n\nTasks:\n\n-  Install/configure DB (local or Sebowa VM)\n\n-  Define retention policy / table structure matching schema from Issue #5\n\n-  Document connection setup",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/7"
+    },
+    {
+      "number": 6,
+      "title": "Unit tests for cleaning pipeline",
+      "state": "closed",
+      "body": "Description: Ensure the cleaning scripts are reliable and repeatable.\n\nTasks:\n\n-  Add tests for edge cases (empty snapshot, corrupt line, out-of-order timestamps)\n\n-  Add CI step to run tests on push",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/6"
+    },
+    {
+      "number": 5,
+      "title": "Define canonical data schema",
+      "state": "closed",
+      "body": "Description: Design the structured schema for storage (tables/measurements).\n\nTasks:\n\n-  Define fields: timestamp, node_id, job_id, cpu_usage, mem_usage, job_state, queue, user (if available)\n\n-  Document schema on a markdown file",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/5"
+    },
+    {
+      "number": 4,
+      "title": "Build data cleaning pipeline for Logs",
+      "state": "closed",
+      "body": "Description: Script(s) to parse raw snapshots into clean, consistent records.\n\nTasks:\n\n-  Handle missing/malformed entries\n\n-  Normalize timestamps to a consistent timezone/format\n\n-  Deduplicate snapshot records\n\n-  Output cleaned data as intermediate CSV/Parquet",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/4"
+    },
+    {
+      "number": 3,
+      "title": "Exploratory data analysis (EDA)",
+      "state": "closed",
+      "body": "Description: Initial exploration to understand data shape and PBS job scheduling fields.\n\nTasks:\n\n-  Load sample data into Pandas\n\n-  Summarize job counts, node counts, CPU usage ranges, time span\n\n-  Identify candidate fields for utilization metrics (CPU%, job state, node ID, timestamp)",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/3"
+    },
+    {
+      "number": 2,
+      "title": "Obtain and inventory raw PBS log/snapshot data",
+      "state": "closed",
+      "body": "Description: Source the historical HPC cluster snapshot dataset and document its structure.\n\nTasks:\n\n-  Confirm data source/location and access method\n\n-  Document schema: fields, snapshot frequency, time range, file format\n\n-  Note data quality issues (missing values, duplicates, malformed rows)",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/2"
+    },
+    {
+      "number": 1,
+      "title": "Project & repo setup",
+      "state": "closed",
+      "body": "Initialize repo structure, environment, and team workflow.",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/1",
+      "comments": [
+        {
+          "body": "Goals: Understand PBS logs and set up working environment.\n\nTasks:\n\n- Review PBS job log structure and key fields.\n\n-  Set up Python virtual environment + requirements.txt\n\n-  Add project board (or use GitHub Projects) linked to these issues",
+          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/1#issuecomment-5772576358"
+        },
+        {
+          "body": "Good day @Tsotetsi-K,\n\nDo research the available Python versions and identify one that is suitable for this PBS log visualization use case, taking into consideration library compatibility.\n\nOnce you've agreed on a version, document the reasoning, set up the virtual environment, and capture the dependencies in requirements.txt so the rest of the team can reproduce the setup.\n\nThe goal is not just to get the environment running, but to understand and justify the technical decisions we make along the way.\n\n",
+          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/1#issuecomment-6167859982"
+        },
+        {
+          "body": "The documentation of the virtual setup is of my own and not the groups work? Is it an individual document? ",
+          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/1#issuecomment-6168432695"
+        },
+        {
+          "body": "The virtual environment setup should be part of the group's work since it contributes to getting the project running. You can take the lead in documenting the setup, but the choices should be discussed and agreed upon by the team. \n\nThe aim is for everyone to understand the setup and be able to reproduce it on their own machines if needed for individual contributions.",
+          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/1#issuecomment-6168865877"
+        },
+        {
+          "body": "<img width=\"961\" height=\"412\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/dd190870-388d-4d30-93a9-5efbd5d776af\" />\n\nConfirmed that the virtual environment is functioning correctly:\n\nPython 3.15.0\nPandas 3.0.6 available\nNo broken package dependencies reported by pip check\n\nEnvironment is ready for development.",
+          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/1#issuecomment-6316234315"
+        },
+        {
+          "body": "<img width=\"1363\" height=\"510\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/380c7093-6fc8-4195-8f99-3e4989b4558f\" />\nThe Python virtual environment was created successfully, and all required packages were installed successfully, Pandas 3.0.6, python-dateutil 2.9.0.post0. The installation completed without errors. \nThe Python version can be verified by running .\\.venv\\Scripts\\python.exe --version which is 3.15.0\n",
+          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/1#issuecomment-6316358425"
+        },
+        {
+          "body": "& here's our project board https://github.com/users/ngobeniew/projects/2",
+          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/1#issuecomment-6317175697"
+        }
+      ]
+    }
+  ],
+  "discussions": {
+    "data": {
+      "repository": {
+        "hasDiscussionsEnabled": true,
+        "discussions": {
+          "nodes": [
+            {
+              "title": "PR #22 – Mergeability Check Assistance",
+              "body": "Hi @jury-Tsoka\r\n\r\nLet's first check whether your branch is up to date with main and whether there are any merge conflicts.\r\n\r\nPlease run the following commands in your local project directory:\r\n\r\ngit fetch origin\r\ngit checkout issue-4-cleaning\r\ngit status\r\ngit log --oneline HEAD..origin/main\r\ngit merge origin/main\r\n\r\nIf there are any merge conflicts, Git will identify the affected files. If the merge succeeds, please let me know.\r\n\r\nKindly share the command outputs here so we can investigate further and resolve the issue without delaying the integration of the cleaning pipeline into the project.\r\n\r\nDon't push or complete the merge yet until we've reviewed the results.",
+              "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/discussions/23",
+              "comments": {
+                "nodes": [
+                  {
+                    "body": "Hi Mentor,\r\n\r\nI ran all the commands you provided.\r\n\r\ngit fetch origin completed successfully.\r\n\r\nMy branch issue-4-cleaning is up to date with its remote branch.\r\n\r\ngit status shows a clean working tree.\r\n\r\ngit log --online HEAD..origin/main returned no commits.\r\n\r\ngit merge origin/main returned \" Already up to date.\"\r\n\r\n\r\nPS C:\\Users\\Jurry Tsoka\\Jury-HPC\\switch-squad-hpc-log-viz> git fetch origin\r\nPS C:\\Users\\Jurry Tsoka\\Jury-HPC\\switch-squad-hpc-log-viz> git checkout\r\nissue-4-cleaning\r\nAlready on 'issue-4-cleaning'\r\nYour branch is up to date with 'origin/issue-4-cleaning'.\r\nPS C:\\Users\\Jurry Tsoka\\Jury-HPC\\switch-squad-hpc-log-viz> git status\r\nOn branch issue-4-cleaning\r\nYour branch is up to date with 'origin/issue-4-cleaning'.\r\n\r\nnothing to commit, working tree clean\r\nPS C:\\Users\\Jurry Tsoka\\Jury-HPC\\switch-squad-hpc-log-viz> git log\r\n--oneline HEAD..origin/main\r\nPS C:\\Users\\Jurry Tsoka\\Jury-HPC\\switch-squad-hpc-log-viz> git merge\r\norigin/main\r\nAlready up to date.\r\n\r\nThere were no merge conflicts when merging main into my branch.\r\n\r\n\r\n\r",
+                    "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/discussions/23#discussioncomment-19458609",
+                    "replies": {
+                      "nodes": [
+                        {
+                          "body": "Ok Cool,\r\n\r\nI have checked PR #22 and resolved the mergeability status issue. GitHub now confirms that the pull request is mergeable, with no conflicts.\r\n\r\nYou can now proceed with the merge on your side.\r\n",
+                          "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/discussions/23#discussioncomment-19459090"
+                        }
+                      ],
+                      "pageInfo": {
+                        "hasNextPage": false
+                      }
+                    }
+                  },
+                  {
+                    "body": "Done.\r\nthanks\r\n\r\n\r",
+                    "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/discussions/23#discussioncomment-19459132",
+                    "replies": {
+                      "nodes": [],
+                      "pageInfo": {
+                        "hasNextPage": false
+                      }
+                    }
+                  }
+                ],
+                "pageInfo": {
+                  "hasNextPage": false
+                }
+              }
+            },
+            {
+              "title": "Quick tip: use Linux (WSL",
+              "body": "Hi everyone,\r\n\r\nA quick suggestion for your project: try working in a Linux environment instead of PowerShell. It's what most servers and systems use, so the skills carry over well.\r\n\r\nOn Windows, WSL2 with Ubuntu is the easiest way. Mac and Linux users are already set.\r\n\r\nJust a suggestion\r\n\r\nThanks.",
+              "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/discussions/16",
+              "comments": {
+                "nodes": [],
+                "pageInfo": {
+                  "hasNextPage": false
+                }
+              }
+            },
+            {
+              "title": "Logs",
+              "body": "Hi All\r\n\r\nI have just uploaded logs.zip folder with all the files you will work with for now:\r\n\r\nhttps://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/blob/main/logs.zip\r\n\r\nGet familiar with the fields and formats.\r\n\r\nKeep an eye out for corrupted files and file types and incorrect data entries.\r\n\r\nPlease give thumbs up to this message once you have read it.\r\n\r\nAll the best.",
+              "url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/discussions/13",
+              "comments": {
+                "nodes": [],
+                "pageInfo": {
+                  "hasNextPage": false
+                }
+              }
+            }
+          ],
+          "pageInfo": {
+            "hasNextPage": false
+          }
+        }
+      }
+    }
+  },
+  "recent_ci": [
+    {
+      "id": 43877570058,
+      "head_sha": "5f7fbc739908e3f8345dda43e1258a866e2a482b",
+      "head_branch": "completion/dashboard",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/43877570058"
+    },
+    {
+      "id": 43877546457,
+      "head_sha": "5f7fbc739908e3f8345dda43e1258a866e2a482b",
+      "head_branch": "completion/dashboard",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/43877546457"
+    },
+    {
+      "id": 43876119655,
+      "head_sha": "2591e865650854334ff3d456c49c92537d664979",
+      "head_branch": "completion/ingestion",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/43876119655"
+    },
+    {
+      "id": 43876106178,
+      "head_sha": "2591e865650854334ff3d456c49c92537d664979",
+      "head_branch": "completion/ingestion",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/43876106178"
+    },
+    {
+      "id": 42643330818,
+      "head_sha": "6be1b979d1fc7bb39990b8a8648be71251c2255a",
+      "head_branch": "issue-8-loader",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42643330818"
+    },
+    {
+      "id": 42643321261,
+      "head_sha": "6be1b979d1fc7bb39990b8a8648be71251c2255a",
+      "head_branch": "issue-8-loader",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42643321261"
+    },
+    {
+      "id": 42642125449,
+      "head_sha": "799ca31d2b7e6e27f3b093bca8a302e25cb550b8",
+      "head_branch": "issue-8-loader",
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42642125449"
+    },
+    {
+      "id": 42641583858,
+      "head_sha": "799ca31d2b7e6e27f3b093bca8a302e25cb550b8",
+      "head_branch": "issue-8-loader",
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42641583858"
+    },
+    {
+      "id": 42622700231,
+      "head_sha": "98a2709c40657da432faaae4f01ebf434ee2da72",
+      "head_branch": "main",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42622700231"
+    },
+    {
+      "id": 42622113812,
+      "head_sha": "d637581f8da33fb12872d83f447c8fa872e413ba",
+      "head_branch": "issue-7-database",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42622113812"
+    },
+    {
+      "id": 42622021914,
+      "head_sha": "d637581f8da33fb12872d83f447c8fa872e413ba",
+      "head_branch": "issue-7-database",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42622021914"
+    },
+    {
+      "id": 42585236009,
+      "head_sha": "f33d9e8ff6f65d79c5a67c0afe80b15671feeeb3",
+      "head_branch": "main",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42585236009"
+    },
+    {
+      "id": 42585204728,
+      "head_sha": "9d3ad67b69713b39bc646961e17040e89d08bd07",
+      "head_branch": "issue-6-tests-ci",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42585204728"
+    },
+    {
+      "id": 42584874907,
+      "head_sha": "9d3ad67b69713b39bc646961e17040e89d08bd07",
+      "head_branch": "issue-6-tests-ci",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/actions/runs/42584874907"
+    }
+  ]
+}

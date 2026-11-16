@@ -1,3 +1,4 @@
 # Optional: export poster/slides and run browser QA with installed Chrome.
 playwright==1.56.0
 python-pptx==1.0.2
+pypdf==6.1.1

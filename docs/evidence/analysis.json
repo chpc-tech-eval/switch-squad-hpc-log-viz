@@ -4,7 +4,7 @@
       "snapshots": 903522,
       "first_timestamp": "2017-01-22 08:25:00",
       "last_timestamp": "2025-10-03 15:10:00",
-      "mean_reported_cpu_percent": 70.96592708494043,
+      "mean_reported_cpu_percent": 70.96592708494045,
       "min_reported_cpu_percent": 0.0,
       "max_reported_cpu_percent": 129.27,
       "cpu_samples": 894438,

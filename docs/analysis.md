@@ -13,6 +13,8 @@ unconfirmed collection semantics. Source timezone is unconfirmed.
 - Highest daily mean among days with at least 200 CPU samples: 2025-06-26 00:00:00, 98.63% (288 CPU samples).
 - Lowest daily mean under that same coverage rule: 2017-07-29 00:00:00, 0.00% (288 CPU samples).
 - Largest accepted-snapshot gap: 4 days, 0:05:00, between 2022-01-06 23:55:00 and 2022-01-11 00:00:00.
+- Across the archive, the highest mean by source-clock hour is 16:00 (73.32%); the lowest is 07:00 (67.43%).
+- The highest weekday mean is Thursday (73.88%); the lowest is Sunday (64.87%). These combine available CPU samples across years, rather than equally weighting days.
 
 The 200-sample daily threshold is a reporting choice, not a guarantee of full
 daily coverage. A usual five-minute day would have 288 snapshots. See the JSON

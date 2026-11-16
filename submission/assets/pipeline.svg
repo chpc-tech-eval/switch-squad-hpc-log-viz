@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="280" viewBox="0 0 1400 280">
+<rect width="1400" height="280" rx="20" fill="#edf4f2"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#14786b" stroke-width="2"/></marker></defs>
+<g font-family="Arial,sans-serif" text-anchor="middle">
+<g fill="#113c42"><rect x="25" y="48" width="235" height="150" rx="14"/><rect x="304" y="48" width="235" height="150" rx="14"/><rect x="583" y="48" width="235" height="150" rx="14"/><rect x="862" y="48" width="235" height="150" rx="14"/><rect x="1141" y="48" width="235" height="150" rx="14"/></g>
+<g fill="white" font-size="27" font-weight="bold"><text x="142" y="91">Raw archive</text><text x="421" y="91">Clean + explain</text><text x="700" y="91">TimescaleDB</text><text x="979" y="91">SQL analysis</text><text x="1258" y="91">Grafana</text></g>
+<g fill="#a9e8cf" font-size="21"><text x="142" y="131">3,169 log files</text><text x="421" y="131">903,522 accepted</text><text x="700" y="131">Validate + ingest</text><text x="979" y="131">Trends + coverage</text><text x="1258" y="131">Filter + explore</text><text x="142" y="164">917,919 source rows</text><text x="421" y="164">Quarantine conflicts</text><text x="700" y="164">Safe identical reruns</text><text x="979" y="164">Supported metrics</text><text x="1258" y="164">Read-only queries</text></g>
+<g stroke="#14786b" stroke-width="4" marker-end="url(#arrow)"><path d="M267 123H292"/><path d="M546 123H571"/><path d="M825 123H850"/><path d="M1104 123H1129"/></g>
+<text x="700" y="245" font-size="24" fill="#113c42">Traceable quality reports • Real database tests • Full CSV/database comparison</text>
+</g></svg>
