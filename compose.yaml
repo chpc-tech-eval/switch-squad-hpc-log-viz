@@ -26,5 +26,52 @@ services:
       retries: 30
       start_period: 20s
 
+  runner:
+    profiles: [tools]
+    build: .
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?Create .env first}"
+      GRAFANA_DB_PASSWORD: "${GRAFANA_DB_PASSWORD:?Run init-env first}"
+      PGHOST: db
+      PGPORT: "5432"
+    volumes:
+      - .:/workspace
+    depends_on:
+      db:
+        condition: service_healthy
+    mem_limit: 4g
+    cpus: 2.0
+
+  grafana:
+    image: grafana/grafana@sha256:70d9599b186ce287be0d2c5ba9a78acb2e86c1a68c9c41449454d0fc3eeb84e8
+    environment:
+      GRAFANA_DB_PASSWORD: "${GRAFANA_DB_PASSWORD:?Run python -m scripts.project init-env}"
+      GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASSWORD:?Run python -m scripts.project init-env}"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/cluster.json
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:3000/api/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    depends_on:
+      db:
+        condition: service_healthy
+    mem_limit: 768m
+    cpus: 1.0
+    restart: unless-stopped
+
 volumes:
   pgdata:
+  grafana-data:

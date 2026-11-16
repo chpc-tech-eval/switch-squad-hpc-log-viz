@@ -1,0 +1,192 @@
+{
+  "health": {
+    "database": "ok",
+    "version": "12.3.0",
+    "commit": "20051fb1fc604fc54aae76356da1c14612af41d0"
+  },
+  "provisioned": true,
+  "panel_query_checks": [
+    {
+      "panel": "Accepted snapshots in range",
+      "bucket": "1 hour",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Mean reported CPU",
+      "bucket": "1 hour",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Peak queued-job count",
+      "bucket": "1 hour",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Snapshots missing CPU",
+      "bucket": "1 hour",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Reported CPU percentage",
+      "bucket": "1 hour",
+      "returned_rows": 76232
+    },
+    {
+      "panel": "Jobs: occupancy and backlog",
+      "bucket": "1 hour",
+      "returned_rows": 76232
+    },
+    {
+      "panel": "Nodes: reported counts",
+      "bucket": "1 hour",
+      "returned_rows": 76232
+    },
+    {
+      "panel": "Running-node percentage",
+      "bucket": "1 hour",
+      "returned_rows": 76232
+    },
+    {
+      "panel": "Observation coverage by bucket",
+      "bucket": "1 hour",
+      "returned_rows": 76232
+    },
+    {
+      "panel": "Hour-of-day pattern (source clock)",
+      "bucket": "1 hour",
+      "returned_rows": 24
+    },
+    {
+      "panel": "Peak daily means \u00b7 at least 200 CPU samples",
+      "bucket": "1 hour",
+      "returned_rows": 10
+    },
+    {
+      "panel": "Weekday patterns \u00b7 Monday = 1",
+      "bucket": "1 hour",
+      "returned_rows": 7
+    },
+    {
+      "panel": "Accepted snapshots in range",
+      "bucket": "1 day",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Mean reported CPU",
+      "bucket": "1 day",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Peak queued-job count",
+      "bucket": "1 day",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Snapshots missing CPU",
+      "bucket": "1 day",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Reported CPU percentage",
+      "bucket": "1 day",
+      "returned_rows": 3177
+    },
+    {
+      "panel": "Jobs: occupancy and backlog",
+      "bucket": "1 day",
+      "returned_rows": 3177
+    },
+    {
+      "panel": "Nodes: reported counts",
+      "bucket": "1 day",
+      "returned_rows": 3177
+    },
+    {
+      "panel": "Running-node percentage",
+      "bucket": "1 day",
+      "returned_rows": 3177
+    },
+    {
+      "panel": "Observation coverage by bucket",
+      "bucket": "1 day",
+      "returned_rows": 3177
+    },
+    {
+      "panel": "Hour-of-day pattern (source clock)",
+      "bucket": "1 day",
+      "returned_rows": 24
+    },
+    {
+      "panel": "Peak daily means \u00b7 at least 200 CPU samples",
+      "bucket": "1 day",
+      "returned_rows": 10
+    },
+    {
+      "panel": "Weekday patterns \u00b7 Monday = 1",
+      "bucket": "1 day",
+      "returned_rows": 7
+    },
+    {
+      "panel": "Accepted snapshots in range",
+      "bucket": "1 week",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Mean reported CPU",
+      "bucket": "1 week",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Peak queued-job count",
+      "bucket": "1 week",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Snapshots missing CPU",
+      "bucket": "1 week",
+      "returned_rows": 1
+    },
+    {
+      "panel": "Reported CPU percentage",
+      "bucket": "1 week",
+      "returned_rows": 455
+    },
+    {
+      "panel": "Jobs: occupancy and backlog",
+      "bucket": "1 week",
+      "returned_rows": 455
+    },
+    {
+      "panel": "Nodes: reported counts",
+      "bucket": "1 week",
+      "returned_rows": 455
+    },
+    {
+      "panel": "Running-node percentage",
+      "bucket": "1 week",
+      "returned_rows": 455
+    },
+    {
+      "panel": "Observation coverage by bucket",
+      "bucket": "1 week",
+      "returned_rows": 455
+    },
+    {
+      "panel": "Hour-of-day pattern (source clock)",
+      "bucket": "1 week",
+      "returned_rows": 24
+    },
+    {
+      "panel": "Peak daily means \u00b7 at least 200 CPU samples",
+      "bucket": "1 week",
+      "returned_rows": 10
+    },
+    {
+      "panel": "Weekday patterns \u00b7 Monday = 1",
+      "bucket": "1 week",
+      "returned_rows": 7
+    }
+  ],
+  "full_range_count": 903522,
+  "empty_range_count": 0
+}

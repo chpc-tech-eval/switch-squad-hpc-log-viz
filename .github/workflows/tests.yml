@@ -55,3 +55,30 @@ jobs:
           python-version: '3.13'
       - run: python -m pip install -r requirements-dev.txt
       - run: python -m pytest -v
+
+  historical-dashboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m scripts.project init-env
+      - run: docker compose up -d --wait db
+      - run: python -m scripts.project setup
+      - run: python scripts/clean_logs.py --all > cleaning-ci.log
+      - run: python -m scripts.project load > ingestion-ci.log
+      - run: python -m scripts.project verify > verification-ci.log
+      - run: docker compose up -d --wait grafana
+      - run: python -m scripts.check_dashboard
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: historical-validation
+          path: |
+            docs/evidence/
+            *-ci.log
+      - if: always()
+        run: docker compose down
