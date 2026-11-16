@@ -72,5 +72,5 @@ historical range; the dataset ends in October 2025, not today.
 - **What did we accomplish?** A reproducible raw-to-dashboard pipeline, tested
   ingestion, honest trend analysis, and reviewable code and submission materials.
 
-Assign speakers and rehearse together; this document does not assert that a
-rehearsal or any individual teammate's work has already happened.
+Presentation rehearsal includes speaker allocation, timing and a check of the
+live dashboard on the presentation laptop.

@@ -1,21 +1,21 @@
 {
   "poster": {
-    "pdf_bytes": 291422,
+    "pdf_bytes": 291363,
     "pdf_pages": 1,
     "linked_images_loaded": true,
     "page_width_points": 1684.08,
     "page_height_points": 2383.9199
   },
   "slides": {
-    "pdf_bytes": 429193,
+    "pdf_bytes": 429153,
     "pdf_pages": 10,
     "linked_images_loaded": true,
     "page_width_points": 960.0,
     "page_height_points": 540.0
   },
   "journal": {
-    "pdf_bytes": 62843,
-    "pdf_pages": 3,
+    "pdf_bytes": 61120,
+    "pdf_pages": 2,
     "linked_images_loaded": true,
     "page_width_points": 594.95996,
     "page_height_points": 841.91998

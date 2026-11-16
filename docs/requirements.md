@@ -1,16 +1,15 @@
 # Requirements and evidence map
 
-Reviewed 16 November 2026: README, all repository documentation, every open and
-closed issue/PR returned by GitHub (24 entries), issue comments, PR #27's two
-commits and complete diff, and recent CI conclusions. Main is 98a2709; loader
-PR head is 6be1b97. PR #27's initial CI failed, then its latest two runs passed.
-Repository files contain no organiser poster template, grading rubric, original
-project brief or presentation duration. A later authenticated GraphQL audit
-also read the repository's three Discussions: raw-log provenance (#13), a
-Linux/Ubuntu-WSL suggestion (#16), and a past cleaning-branch merge check (#23).
-Those do not add a VirtualBox requirement or a poster template. User-supplied
-deadline and mandatory deliverables are the submission
-constraints until the organiser provides more detail.
+This map relates the project issues to the implemented pipeline and its data
+limitations. Implementation and submission materials were merged through
+PRs #27–30. Issues #8, #10 and #11 are complete; #9 and #12 remain open for
+clarification of unavailable metrics and deployment expectations.
+
+Discussion #13 identifies the supplied raw archive. Discussion #16 recommends
+Linux development and suggests Ubuntu through WSL2. Issue #12 mentions a
+VirtualBox cluster deployment; whether that is required alongside this
+application needs confirmation. Poster format, presentation duration and final
+submission details also require organiser confirmation.
 
 | Requirement | Evidence / implementation | Limitation |
 |---|---|---|
@@ -24,17 +23,18 @@ constraints until the organiser provides more detail.
 | Patterns and report (#10) | patterns.sql; docs/analysis.md | Changing capacity and gaps limit interpretation |
 | Grafana and interaction (#11) | Provisioned date filter, bucket selector, zoom, coverage panels | Historical dataset, not a live collection agent |
 | Poster, slides, demo (#12) | submission/ | Final team review and format confirmation required |
-| Journal (user/organiser request) | submission/journal.md | History-derived entries explicitly retrospective |
+| Project journal | submission/journal.md | History-derived entries explicitly retrospective |
 | VirtualBox cluster (#12 wording) | Linux-container deployment demonstrated | No evidence of a VirtualBox cluster; no claim that one was built |
 
-## Decisions for a defensible submission
+## Implementation decisions
 
-Preserve the existing pipeline and contributor history. Correct and extend the
-loader rather than replace it. Use TimescaleDB and Grafana as requested by the
-issue set. Preserve wall-clock timestamps; show them on a UTC-labelled plotting
-axis only as a display convention, with an explicit on-screen caveat. Do not
-invent missing metrics. Ask the organiser whether the VirtualBox wording is
-applicable and whether the unavailable metrics need a separate dataset.
+The implementation extends the existing cleaner and database loader and
+preserves contributor history. TimescaleDB stores the canonical snapshots;
+Grafana provides the interactive view. Recorded wall-clock timestamps are
+preserved. The UTC-labelled plotting axis is a display convention, with an
+on-screen explanation. Unsupported metrics are documented rather than inferred
+from unrelated aggregate counters.
 
-Keep issues open until teammates review the evidence and merge. A passing test
-does not establish acceptance of a substituted metric or a submission format.
+Issues #9 and #12 remain open until the outstanding metric and deployment
+questions are resolved. Validation results do not establish organiser approval
+of a substituted metric or submission format.

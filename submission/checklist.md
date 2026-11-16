@@ -12,7 +12,7 @@ time, timezone and submission channel with the organiser; they were not supplied
 - [x] Supply Linux/Windows execution instructions and Linux tooling image.
 - [x] Prepare editable poster, slide deck, journal, diagrams and actual screenshots.
 - [x] Supply PDF exports and a practical demo/fallback walkthrough.
-- [ ] Team review PR #27 → #28 → dashboard PR → materials PR; merge yourselves.
+- [x] Merge implementation and submission materials through PRs #27–30.
 - [ ] Confirm organiser rubric, poster size/template, slide duration and file limits.
 - [ ] Resolve whether issue #12's VirtualBox-cluster wording applies to this project.
 - [ ] Confirm acceptance of documented substitutions for unavailable metrics in #9.

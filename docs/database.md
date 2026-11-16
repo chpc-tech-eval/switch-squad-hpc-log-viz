@@ -249,7 +249,7 @@ docker compose exec -T db psql -h 127.0.0.1 -U hpc_admin -d hpc_logs -v ON_ERROR
 
 ## Results recorded on 2026-11-09
 
-Verified on the project owner's Windows 11 Home x64 laptop, using Docker
+Verified on Windows 11 Home x64, using Docker
 Desktop 4.98.0, Docker Engine 29.9.2 and Docker Compose 5.6.1.
 
 | Check | Observed result |

@@ -1,10 +1,9 @@
 # Switch Squad submission materials
 
 Prepared from verified repository work on **16 November 2026** for the stated
-**Friday, 20 November 2026** deadline. These are reviewable submission exports;
-the organiser's exact format, poster size and presentation duration were not
-provided. A1 portrait and a ten-slide deck are explicit working choices.
-No claim is made that these formats have organiser approval.
+**Friday, 20 November 2026** deadline. The exports use an A1 portrait poster and
+a ten-slide presentation. Exact format, poster size and presentation duration
+remain subject to organiser confirmation.
 
 | Deliverable | Editable source | Export |
 |---|---|---|
@@ -30,10 +29,9 @@ Run from the repository root, using the existing virtual environment:
 ```
 
 Chrome must be installed. For Edge set `$env:BROWSER_CHANNEL = 'msedge'` first.
-Linux uses `.venv/bin/python` and an installed supported Chrome/Edge channel;
-do not claim browser checks ran on Linux unless you actually run them there.
-The builder exports the PDFs, PPTX and previews from local sources. It does not
-upload or submit anything. Browser QA requires the local Grafana instance.
+Linux uses `.venv/bin/python` and an installed supported Chrome/Edge channel.
+Browser QA was verified with Chrome on Windows and requires the local Grafana
+instance. The builder exports the PDFs, PPTX and previews from local sources.
 
-Read `demo.md` together as a team, confirm the organiser's format requirements,
-review the journal's retrospective entries, then complete `checklist.md`.
+`demo.md` contains the presentation walkthrough. `checklist.md` tracks format
+confirmation, rehearsal and final submission.
