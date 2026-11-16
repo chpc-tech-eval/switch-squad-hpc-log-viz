@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+from datetime import datetime
 
 from db.loader import (
     COLUMNS,
@@ -106,6 +107,9 @@ def test_load_valid_batch(tmp_path):
     )])
 
     connection = MagicMock()
+    connection.cursor.return_value.__enter__.return_value.fetchall.return_value = [
+        parse_row(make_row()), parse_row(make_row(timestamp="2025-01-01 10:05"))
+    ]
 
     with patch(
         "db.loader.execute_values",
@@ -137,6 +141,9 @@ def test_skip_duplicate_timestamps(tmp_path):
     )])
 
     connection = MagicMock()
+    connection.cursor.return_value.__enter__.return_value.fetchall.return_value = [
+        parse_row(make_row()), parse_row(make_row(timestamp="2025-01-01 10:05"))
+    ]
 
     with patch(
         "db.loader.execute_values",
@@ -167,6 +174,7 @@ def test_log_invalid_rows(tmp_path):
     ])
 
     connection = MagicMock()
+    connection.cursor.return_value.__enter__.return_value.fetchall.return_value = [parse_row(make_row())]
 
     with patch(
         "db.loader.execute_values",
@@ -189,3 +197,20 @@ def test_log_invalid_rows(tmp_path):
 
     assert len(errors) == 1
     assert errors[0]["error_type"] == "ValueError"
+
+
+@pytest.mark.parametrize("changes", [
+    {"jobs_running": ""}, {"nodes_total": ""},
+    {"cpu_used": "9223372036854775808"}, {"jobs_running": "+1"},
+    {"cpu_percent": "NaN"}, {"timestamp": "2025-1-1 10:00"},
+    {"jobs_held": None}, {None: ["extra"]},
+])
+def test_reject_noncanonical_rows(changes):
+    with pytest.raises(ValueError):
+        parse_row(make_row(**changes) if None not in changes else {**make_row(), **changes})
+
+
+def test_preserve_large_percentages_and_zero():
+    row = parse_row(make_row(cpu_percent="150", nodes_total="0"))
+    assert row[-1] == 150
+    assert row[7] == 0
