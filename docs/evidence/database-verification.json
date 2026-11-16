@@ -1,0 +1,50 @@
+{
+  "rows_compared": 903522,
+  "all_12_columns_match": true,
+  "canonical_tuple_sha256": "2c88bdfae2a0cc708934e328cce19bc2b3e94f4d2b0704c9b9ebaef14663d60f",
+  "samples": [
+    {
+      "timestamp": "2017-01-22 08:25:00",
+      "jobs_running": 60,
+      "jobs_queued": 2,
+      "jobs_held": null,
+      "jobs_exiting": null,
+      "nodes_running": 484,
+      "nodes_offline": 17,
+      "nodes_total": 1012,
+      "nodes_running_percent": 47.83,
+      "cpu_used": 3960,
+      "cpu_total": 24448,
+      "cpu_percent": 16.2
+    },
+    {
+      "timestamp": "2018-01-12 15:15:00",
+      "jobs_running": 292,
+      "jobs_queued": 113,
+      "jobs_held": 1,
+      "jobs_exiting": 0,
+      "nodes_running": 1006,
+      "nodes_offline": 0,
+      "nodes_total": 1376,
+      "nodes_running_percent": 73.11,
+      "cpu_used": 24058,
+      "cpu_total": 33184,
+      "cpu_percent": 72.5
+    },
+    {
+      "timestamp": "2021-11-13 00:55:00",
+      "jobs_running": 462,
+      "jobs_queued": 215,
+      "jobs_held": 15,
+      "jobs_exiting": 0,
+      "nodes_running": 1183,
+      "nodes_offline": 72,
+      "nodes_total": 1369,
+      "nodes_running_percent": 86.41,
+      "cpu_used": 26651,
+      "cpu_total": 33160,
+      "cpu_percent": 80.37
+    }
+  ],
+  "archive_sha256": "6d024ea0da22383a555c9fe4f6548447a5d4018c85b36be73b044f687525d567"
+}

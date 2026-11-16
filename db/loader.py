@@ -53,6 +53,12 @@ FLOAT_COLUMNS = {
     "cpu_percent",
 }
 
+REQUIRED = {"jobs_running", "jobs_queued", "nodes_running", "nodes_offline", "nodes_total"}
+
+
+class ConflictingSnapshot(ValueError):
+    """An existing timestamp has different measurements."""
+
 INSERT_SQL = """
     INSERT INTO public.cluster_snapshots (
         "timestamp", jobs_running, jobs_queued, jobs_held,
@@ -76,9 +82,13 @@ def configure_logging():
 def parse_row(row):
     """Convert CSV strings into database-compatible values."""
 
+    if set(row) != set(COLUMNS) or any(value is None for value in row.values()):
+        raise ValueError("CSV row must contain exactly the 12 canonical fields")
     timestamp = datetime.strptime(
         row["timestamp"], "%Y-%m-%d %H:%M"
     )
+    if timestamp.strftime("%Y-%m-%d %H:%M") != row["timestamp"]:
+        raise ValueError("Timestamp must use YYYY-MM-DD HH:MM")
 
     values = [timestamp]
 
@@ -86,13 +96,15 @@ def parse_row(row):
         raw_value = row[column].strip()
 
         if raw_value == "":
+            if column in REQUIRED:
+                raise ValueError(f"{column} is required")
             values.append(None)
             continue
 
         if column in INTEGER_COLUMNS:
             value = int(raw_value)
-            if value < 0:
-                raise ValueError(f"{column} cannot be negative")
+            if not raw_value.isascii() or not raw_value.isdecimal() or not 0 <= value <= 9223372036854775807:
+                raise ValueError(f"{column} must be an integer from 0 through BIGINT maximum")
         elif column in FLOAT_COLUMNS:
             value = float(raw_value)
             if not math.isfinite(value) or value < 0:
@@ -143,7 +155,9 @@ def load_snapshots(
     validate_csv(csv_path)
 
     error_log.parent.mkdir(parents=True, exist_ok=True)
-    write_header = not error_log.exists() or error_log.stat().st_size == 0
+    if error_log.resolve() == csv_path.resolve():
+        raise ValueError("Error report must not overwrite input CSV")
+    write_header = True
 
     source_rows = 0
     inserted = 0
@@ -153,7 +167,7 @@ def load_snapshots(
     batch = []
 
     with error_log.open(
-        "a", newline="", encoding="utf-8"
+        "w", newline="", encoding="utf-8"
     ) as error_file:
         error_writer = csv.writer(error_file)
 
@@ -186,12 +200,20 @@ def load_snapshots(
                                 page_size=len(records),
                                 fetch=True,
                             )
+                            cursor.execute(
+                                'SELECT * FROM public.cluster_snapshots WHERE "timestamp" = ANY(%s)',
+                                ([record[1][0] for record in records],),
+                            )
+                            stored = {row[0]: tuple(row) for row in cursor.fetchall()}
+                            for _, values in records:
+                                if stored.get(values[0]) != values:
+                                    raise ConflictingSnapshot(f"Different measurements at {values[0]}")
 
                     batch_inserted = len(returned)
                     inserted += batch_inserted
                     skipped += len(records) - batch_inserted
 
-                except (IntegrityError, DataError):
+                except (IntegrityError, DataError, ConflictingSnapshot):
                     # Retry individually to identify invalid records.
                     logging.warning(
                         "Batch failed validation; retrying %s rows individually.",
@@ -211,13 +233,20 @@ def load_snapshots(
                                         values,
                                     )
                                     result = cursor.fetchone()
+                                    if result is None:
+                                        cursor.execute(
+                                            'SELECT * FROM public.cluster_snapshots WHERE "timestamp" = %s',
+                                            (values[0],),
+                                        )
+                                        if tuple(cursor.fetchone()) != values:
+                                            raise ConflictingSnapshot(f"Different measurements at {values[0]}")
 
                             if result is None:
                                 skipped += 1
                             else:
                                 inserted += 1
 
-                        except (IntegrityError, DataError) as error:
+                        except (IntegrityError, DataError, ConflictingSnapshot) as error:
                             failed += 1
                             log_error(
                                 error_writer,
@@ -300,6 +329,11 @@ def main():
     try:
         with args.summary.open("r", encoding="utf-8") as file:
             expected = json.load(file)["clean_rows"]
+        validate_csv(args.csv)
+        with args.csv.open(newline="", encoding="utf-8-sig") as file:
+            source_count = sum(1 for _ in csv.DictReader(file))
+        if type(expected) is not int or expected < 0 or source_count != expected:
+            raise ValueError("Source row count does not match cleaning summary; no data loaded")
 
         password = os.environ.get("POSTGRES_PASSWORD")
         if not password:
@@ -351,7 +385,7 @@ def main():
         logging.info("Ingestion completed successfully.")
 
     except (psycopg2.Error, OSError, ValueError, KeyError) as error:
-        logging.exception("Ingestion stopped: %s", error)
+        logging.error("Ingestion stopped (%s); check input and database connectivity.", type(error).__name__)
         sys.exit(1)
 
 

@@ -27,8 +27,31 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
-          python -m pip install pytest
+          python -m pip install -r requirements-dev.txt
 
       - name: Run all tests
         run: python -m pytest -v
+
+  database-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      timescaledb:
+        image: timescale/timescaledb@sha256:b56a3f51991df1f79d0c1a0841cad5c5fa8058fdd6a3ee6886394a6d4c174538
+        env:
+          POSTGRES_PASSWORD: integration-only
+          POSTGRES_DB: hpc_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d hpc_test"
+          --health-interval 5s --health-timeout 5s --health-retries 30
+    env:
+      TEST_DATABASE_DSN: postgresql://postgres:integration-only@localhost:5432/hpc_test
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m pytest -v
