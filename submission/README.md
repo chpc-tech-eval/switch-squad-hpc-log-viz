@@ -1,8 +1,8 @@
 # Switch Squad submission materials
 
-Prepared from verified repository work on **16 November 2026** for the stated
+Updated on **18 November 2026** using the recorded validation results for the stated
 **Friday, 20 November 2026** deadline. The exports use an A1 portrait poster and
-a ten-slide presentation. Exact format, poster size and presentation duration
+an eleven-slide presentation. Exact format, poster size and presentation duration
 remain subject to organiser confirmation.
 
 | Deliverable | Editable source | Export |
@@ -35,3 +35,7 @@ instance. The builder exports the PDFs, PPTX and previews from local sources.
 
 `demo.md` contains the presentation walkthrough. `checklist.md` tracks format
 confirmation, rehearsal and final submission.
+
+The mentor confirmed the deployment and metric alternatives on 17 November.
+See [deployment details](../docs/deployment.md) for the service communication
+explanation included in the presentation.

@@ -14,8 +14,9 @@ time, timezone and submission channel with the organiser; they were not supplied
 - [x] Supply PDF exports and a practical demo/fallback walkthrough.
 - [x] Merge implementation and submission materials through PRs #27–30.
 - [ ] Confirm organiser rubric, poster size/template, slide duration and file limits.
-- [ ] Resolve whether issue #12's VirtualBox-cluster wording applies to this project.
-- [ ] Confirm acceptance of documented substitutions for unavailable metrics in #9.
+- [x] Confirm deployment: Linux containers accepted; separate VirtualBox cluster not required (17 November, #12).
+- [x] Confirm acceptance of alternative metrics (17 November, #9).
+- [ ] Close issue #9 following the accepted alternatives.
 - [ ] Confirm team roster/names/branding for the poster and title slide.
 - [ ] Ask dataset provider about source timezone and CPU counting/collection units.
 - [ ] Verify a fresh teammate checkout using the walkthrough; record who ran it.

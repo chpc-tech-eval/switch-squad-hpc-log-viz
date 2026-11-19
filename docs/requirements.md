@@ -2,13 +2,12 @@
 
 This map relates the project issues to the implemented pipeline and its data
 limitations. Implementation and submission materials were merged through
-PRs #27–30. Issues #8, #10 and #11 are complete; #9 and #12 remain open for
-clarification of unavailable metrics and deployment expectations.
+PRs #27–30. Issues #8, #10 and #11 are complete. On 17 November 2026, the mentor accepted
+the proposed metrics for #9 and the container deployment for #12.
 
 Discussion #13 identifies the supplied raw archive. Discussion #16 recommends
-Linux development and suggests Ubuntu through WSL2. Issue #12 mentions a
-VirtualBox cluster deployment; whether that is required alongside this
-application needs confirmation. Poster format, presentation duration and final
+Linux development and suggests Ubuntu through WSL2. The mentor confirmed in issue #12 that a separate VirtualBox cluster is not
+required and Docker Desktop with Linux containers is acceptable. Poster format, presentation duration and final
 submission details also require organiser confirmation.
 
 | Requirement | Evidence / implementation | Limitation |
@@ -24,7 +23,7 @@ submission details also require organiser confirmation.
 | Grafana and interaction (#11) | Provisioned date filter, bucket selector, zoom, coverage panels | Historical dataset, not a live collection agent |
 | Poster, slides, demo (#12) | submission/ | Final team review and format confirmation required |
 | Project journal | submission/journal.md | History-derived entries explicitly retrospective |
-| VirtualBox cluster (#12 wording) | Linux-container deployment demonstrated | No evidence of a VirtualBox cluster; no claim that one was built |
+| VirtualBox cluster (#12 wording) | Linux-container deployment demonstrated | Separate VirtualBox cluster is not required; mentor confirmed 17 November |
 
 ## Implementation decisions
 
@@ -35,6 +34,8 @@ preserved. The UTC-labelled plotting axis is a display convention, with an
 on-screen explanation. Unsupported metrics are documented rather than inferred
 from unrelated aggregate counters.
 
-Issues #9 and #12 remain open until the outstanding metric and deployment
-questions are resolved. Validation results do not establish organiser approval
-of a substituted metric or submission format.
+The mentor accepted cluster-wide reported CPU and running/queued job counts as
+alternatives in [issue #9](https://github.com/chpc-tech-eval/switch-squad-hpc-log-viz/issues/9)
+on 17 November. This does not supply the absent per-node or individual-job data.
+[Deployment details](deployment.md) explain component locations and communication.
+Final presentation and submission-format checks remain under issue #12.

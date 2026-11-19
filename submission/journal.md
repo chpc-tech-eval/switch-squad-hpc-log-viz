@@ -1,6 +1,6 @@
 # Switch Squad project journal
 
-Prepared 16 November 2026.
+Prepared 18 November 2026.
 
 ## Retrospective repository record
 
@@ -19,6 +19,7 @@ Retrospective chronology compiled from Git commit dates, author metadata and val
 | 2026-11-16 | 2591e86 | Edwin | Harden snapshot ingestion and verify real TimescaleDB transactions |
 | 2026-11-16 | 5f7fbc7 | Edwin | Add historical SQL analysis and provisioned Grafana dashboard |
 | 2026-11-16 | 3830f6f | Edwin | Prepare evidence-backed poster journal presentation and demo materials |
+| 2026-11-16 | 5bf6d4f | Edwin | Refresh public documentation and presentation exports |
 
 ## Database loader development — retrospective
 
@@ -47,4 +48,4 @@ Retrospective summary of repository changes and recorded validation results. Tes
 
 ## Evidence and outstanding requirements
 
-Validation records are in docs/evidence/ and findings are in docs/analysis.md. Issues #9 and #12 track clarification of unavailable metrics and deployment expectations. The final format, poster size and submission cutoff require organiser confirmation. Fresh-checkout reproduction and presentation rehearsal are tracked in submission/checklist.md.
+Validation records are in docs/evidence/ and findings are in docs/analysis.md. On 17 November 2026, the mentor accepted the alternative metrics in issue #9 and the Linux-container deployment in issue #12. A separate VirtualBox cluster is not required. The final format, poster size and submission cutoff require organiser confirmation. Fresh-checkout reproduction and presentation rehearsal are tracked in submission/checklist.md.

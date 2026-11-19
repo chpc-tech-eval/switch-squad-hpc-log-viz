@@ -25,7 +25,7 @@ def journal():
         "--format=%h|%aI|%an|%s", "--", "db", "scripts", "tests", "grafana",
         "compose.yaml", "requirements.txt", "requirements-dev.txt", "submission",
     ], cwd=ROOT, text=True).splitlines()
-    lines = ["# Switch Squad project journal", "", "Prepared 16 November 2026.", "",
+    lines = ["# Switch Squad project journal", "", "Prepared 18 November 2026.", "",
              "## Retrospective repository record", "",
              "Retrospective chronology compiled from Git commit dates, author metadata and "
              "validation records. Meeting attendance and person-hours are not inferred.", "",
@@ -68,7 +68,7 @@ def journal():
               "- Linux containers provide a portable application deployment across Windows and Linux hosts.", "",
               "## Evidence and outstanding requirements", "",
               "Validation records are in docs/evidence/ and findings are in docs/analysis.md. "
-              "Issues #9 and #12 track clarification of unavailable metrics and deployment expectations. "
+              "On 17 November 2026, the mentor accepted the alternative metrics in issue #9 and the Linux-container deployment in issue #12. A separate VirtualBox cluster is not required. "
               "The final format, poster size and submission cutoff require organiser confirmation. "
               "Fresh-checkout reproduction and presentation rehearsal are tracked in "
               "submission/checklist.md.", ""]
@@ -109,19 +109,21 @@ ul {{ padding-left:9mm; margin:0; }} li {{ margin-bottom:4mm; }}
 <div class="two"><section class="proof"><h2>Verified, not assumed</h2><p><b>All 903,522 rows and all 12 fields</b> match the cleaned CSV.</p><p><b>43 tests + 13 subtests</b> pass with real TimescaleDB, including repeat import and rollback recovery.</p><p><b>36 panel-query checks</b> cover three aggregation settings. Chrome rendering and bucket selection were tested.</p></section><section><h2>What we cannot claim</h2><p>These are whole-cluster snapshots. No per-node CPU, memory, job completions or individual waiting times can be calculated.</p><p>9,084 CPU values are missing; 212 exceed 100%. CPU semantics and source timezone are unconfirmed. Averages weight snapshots, not missing elapsed time.</p><h2>What we learned</h2><p>Preserve evidence, test real transactions, show coverage alongside trends, and make uncertainty part of the interface.</p></section></div>
 <footer class="foot"><b>Switch Squad</b> · Python · TimescaleDB · Grafana · Linux containers<br>
 Source and reproducibility: github.com/chpc-tech-eval/switch-squad-hpc-log-viz<br>
-Evidence: docs/evidence/ · Findings: docs/analysis.md · Prepared 16 November 2026.</footer>
+Evidence: docs/evidence/ · Findings: docs/analysis.md · Prepared 18 November 2026.</footer>
 </main></html>"""
     (OUT / "poster.html").write_text(text, encoding="utf-8")
 
 
 def slides():
     return [
-        ("From cluster logs\nto evidence", ["Switch Squad · SCC 2026", "A reproducible historical HPC dashboard", "Prepared 16 November 2026"], None,
+        ("From cluster logs\nto evidence", ["Switch Squad · SCC 2026", "A reproducible historical HPC dashboard", "Prepared 18 November 2026"], None,
          "Introduce the team. We process historical whole-cluster snapshots, not individual job histories."),
         ("Start with what the data supports", ["3,169 files; 917,919 nonblank source rows", "January 2017 to October 2025; roughly five-minute observations", "Reported CPU, node counts and aggregate job-state counts", "No node IDs, memory, job arrivals or completions"], None,
          "Explain the photo-album analogy. A queued count is not a waiting-time measurement."),
         ("One traceable pipeline", ["Validate both log formats; preserve NULLs", "Deduplicate identical rows; quarantine every conflicting timestamp", "Store accepted rows; analyse with SQL; explore in Grafana"], "assets/pipeline.svg",
          "Point to each stage. Quality reports retain source locations and reasons. Linux containers carry the same workflow across hosts."),
+        ("Where the services run", ["Windows: browser and optional Python tools", "Linux containers: Grafana, TimescaleDB and optional Python runner", "Browser → localhost:3000 → Grafana", "Grafana and runner → db:5432; Windows loader → localhost:5433", "Grafana reads with a restricted account; database data persists in a volume"], None,
+         "Docker Desktop provides the Linux container environment. Compose resolves db on its service network. Browser requests go to Grafana; Grafana queries PostgreSQL. The cleaner and loader can run on Windows or in the Linux runner. Ubuntu through WSL2 is also acceptable. See docs/deployment.md."),
         ("Quality is part of the result", ["903,522 accepted snapshots", "12,489 extra identical duplicates", "937 conflicting timestamps → 1,907 quarantined variants", "1 rejected row; row accounting passes", "9,084 missing CPU values; 212 reported CPU values above 100%"], None,
          "These are actual full-archive counts. Warnings are events, not necessarily distinct bad rows. Missing values remain distinct from zero."),
         ("Explore the working dashboard", ["Absolute date range + hour/day/week buckets", "CPU, job backlog, nodes and observation coverage", "Actual Grafana screenshot · 16 November 2026"], "assets/dashboard-overview.png",
@@ -130,12 +132,12 @@ def slides():
          "The peak day has 288 CPU samples. We do not infer causes. Exactly zero reported CPU does not prove the hardware was idle."),
         ("Trust comes from comparison", ["All 903,522 rows and all 12 database fields match the clean CSV", "Repeat import: 0 inserted; 903,522 identical rows skipped", "43 tests + 13 subtests pass with real TimescaleDB", "36 panel-query checks; Chrome UI and bucket-click checks", "Linux tooling container independently verifies the stored data"], None,
          "Explain the repaired loader: matching timestamps alone are not enough. A differing reimport is a reported failure. Batches commit independently and can be resumed."),
-        ("An honest boundary", ["CPU percentage semantics and source timezone remain unconfirmed", "No per-node usage, memory, throughput or individual wait time", "Missing buckets stay empty; no artificial snapshot records", "Local Linux-container deployment verified; no VirtualBox cluster claimed"], None,
-         "The issue text asks for metrics that this dataset cannot supply. We document substitutions and need organiser confirmation, rather than invent results."),
+        ("An honest boundary", ["CPU percentage semantics and source timezone remain unconfirmed", "No per-node usage, memory, throughput or individual wait time", "Missing buckets stay empty; no artificial snapshot records", "Mentor accepted the container deployment and alternative metrics on 17 November"], None,
+         "The mentor accepted cluster-wide CPU and running/queued job counts in issue #9. The data limitations remain. Issue #12 confirms that no separate VirtualBox cluster is required."),
         ("Live demo: ask a narrower question", ["Open the historical dashboard and its coverage panels", "Choose 26 June 2025; switch Bucket to 1 hour", "Hover CPU and queue-count series", "Show the verification evidence and CI", "Fallback: actual screenshots and PDF, clearly labelled"], "assets/dashboard-filtered.png",
          "Follow submission/demo.md. Allow six minutes if the organiser permits. Do not run the full import during the live demo."),
         ("What we accomplished", ["Raw logs → validated storage → supported analysis → interactive dashboard", "Reproducible Linux/Windows workflow and real-database tests", "Evidence-backed poster, journal, slides and demo guide", "Next: confirm requirements and rehearse the presentation", "Repository: github.com/chpc-tech-eval/switch-squad-hpc-log-viz"], None,
-         "Conclude with the deliverables and remaining questions: source timezone, CPU units, organiser formats and unsupported metrics."),
+         "Conclude with the deliverables and remaining questions: source timezone, CPU units and organiser formats."),
     ]
 
 
@@ -249,7 +251,7 @@ def export():
             page.pdf(path=str(OUT / f"{name}.pdf"), print_background=True, prefer_css_page_size=True)
             pdf = PdfReader(OUT / f"{name}.pdf")
             if name in ("poster", "slides"):
-                assert len(pdf.pages) == (1 if name == "poster" else 10)
+                assert len(pdf.pages) == (1 if name == "poster" else len(slides()))
             assert all((item.extract_text() or "").strip() for item in pdf.pages)
             evidence[name] = {"pdf_bytes": (OUT / f"{name}.pdf").stat().st_size,
                               "pdf_pages": len(pdf.pages), "linked_images_loaded": True,
