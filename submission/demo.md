@@ -17,6 +17,21 @@ Its database account can read the snapshots but cannot change them.
 average *reported* CPU percentage of snapshots with a CPU value. It is not a
 guarantee of hardware busy time, nor a time-weighted average over missing periods.
 
+## Explain the deployment
+
+The mentor accepted this deployment on 17 November; no separate VirtualBox
+cluster is required. Windows runs the browser and can run the Python tools.
+Docker Desktop runs Grafana and TimescaleDB in Linux containers. Python can
+also run in the Linux tooling container.
+
+The browser opens `127.0.0.1:3000`. Grafana queries `db:5432` over the Compose
+network using a read-only account. The Windows loader uses the published
+`127.0.0.1:5433` database port; the Linux runner uses `db:5432`. Data persists in
+Docker's named database volume. Full diagram: [deployment.md](../docs/deployment.md).
+
+Cluster-wide CPU and running/queued job counts were accepted as alternatives
+in issue #9. Per-node usage, throughput and waiting times remain unavailable.
+
 ## Before presenting — Windows PowerShell
 
 Open PowerShell in the repository root. Start Docker Desktop, then:
