@@ -26,13 +26,24 @@ def journal():
         "compose.yaml", "requirements.txt", "requirements-dev.txt", "submission",
     ], cwd=ROOT, text=True).splitlines()
     lines = ["# Switch Squad project journal", "", "Updated 20 November 2026.", "",
+             "## Team contributions", "",
+             "Edwin, Jurry, Tsholo and Katleho worked collaboratively on a shared PC. "
+             "The contribution summary below records three shared work areas for each teammate. "
+             "These are collaborative contributions, not claims of exclusive authorship; "
+             "the account used to commit a change does not identify everyone who worked on it.", "",
+             "| Teammate | Contribution 1 | Contribution 2 | Contribution 3 |", "|---|---|---|---|",
+             "| Edwin | Shared Python environment and project setup | Shared database integration and deployment work | Shared documentation and submission preparation |",
+             "| Jurry | Shared log parsing and cleaning | Shared duplicate/conflict handling and quality reporting | Shared batched loading and repeat-import handling |",
+             "| Tsholo | Shared regression tests and CI | Shared validation and real-database checks | Shared deployment checks and demonstration preparation |",
+             "| Katleho | Shared exploratory data analysis | Shared historical SQL analysis and Grafana visualisation | Shared findings, limitations and presentation preparation |", "",
              "## Retrospective repository record", "",
-             "Retrospective chronology compiled from Git commit dates, author metadata and "
-             "validation records. Meeting attendance and person-hours are not inferred.", "",
-             "| Recorded date | Commit | Author | Recorded change |", "|---|---|---|---|"]
+             "Chronology compiled from Git commit dates and validation records. "
+             "Commit identifiers link the shared work to repository history. "
+             "Meeting attendance and person-hours are not inferred.", "",
+             "| Recorded date | Commit | Recorded change |", "|---|---|---|"]
     for entry in entries:
         sha, date, author, subject = entry.split("|", 3)
-        lines.append(f"| {date[:10]} | {sha} | {author} | {subject.replace('|', '/')} |")
+        lines.append(f"| {date[:10]} | {sha} | {subject.replace('|', '/')} |")
     lines += ["", "## Database loader development — retrospective", "",
               "PR #27 by Jury Tsoka supplied a batched psycopg2 loader and mocked unit tests. "
               "Subsequent changes added required-field and BIGINT validation, conflict detection, "

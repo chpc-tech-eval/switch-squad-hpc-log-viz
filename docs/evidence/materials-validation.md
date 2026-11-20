@@ -6,7 +6,7 @@ Actual Chrome exports were opened programmatically with pypdf:
 |---|---:|---|
 | Poster | 1 | A1 portrait, approximately 594 × 841 mm |
 | Slides | 11 | 16:9, 960 × 540 PDF points |
-| Journal | 3 | A4 |
+| Journal | 4 | A4 |
 
 Every PDF page contains extractable text. All linked screenshot/diagram assets
 loaded before export. Browser layout checks found no overflow in the poster or
