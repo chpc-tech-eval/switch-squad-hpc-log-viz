@@ -25,7 +25,7 @@ def journal():
         "--format=%h|%aI|%an|%s", "--", "db", "scripts", "tests", "grafana",
         "compose.yaml", "requirements.txt", "requirements-dev.txt", "submission",
     ], cwd=ROOT, text=True).splitlines()
-    lines = ["# Switch Squad project journal", "", "Prepared 18 November 2026.", "",
+    lines = ["# Switch Squad project journal", "", "Updated 20 November 2026.", "",
              "## Retrospective repository record", "",
              "Retrospective chronology compiled from Git commit dates, author metadata and "
              "validation records. Meeting attendance and person-hours are not inferred.", "",
@@ -59,6 +59,27 @@ def journal():
               "7. Prepared poster, slide, journal, demo and checklist sources/exports from the saved "
               "evidence. The implementation and materials were merged through PRs #27–30. "
               "Presentation rehearsal and final submission remain outstanding.", "",
+              "## 20 November 2026 — presentation and final review allocation", "",
+              "Responsibilities below cover presentation delivery and remaining review tasks. "
+              "They do not replace the recorded development contributions or establish completion of the reviews.", "",
+              "| Teammate | Presentation responsibility | Final review responsibility |", "|---|---|---|",
+              "| Edwin | Slides 1–2: introduction, project purpose and source data; opening demo context | Check submission files and repository links; confirm organiser submission channel and cutoff |",
+              "| Jurry | Slides 3 and 5: cleaning pipeline, quality accounting and ingestion; explain repeat imports | Review cleaning and loader explanations against saved quality and ingestion evidence |",
+              "| Tsholo | Slides 4 and 8: deployment, service connections and testing; show verification during the demo | Run presentation-laptop preflight checks and review saved validation evidence |",
+              "| Katleho | Slides 6–7: dashboard and findings; close on slide 11 | Review chart labels, reported findings and PDF readability against the analysis |", "",
+              "Shared slide 9: Edwin explains unavailable metrics; Jurry explains conflicting and missing values; "
+              "Tsholo explains deployment acceptance; Katleho explains interpretation limits.", "",
+              "Shared slide 10 demonstration: Edwin introduces the historical range; Jurry explains accepted counts "
+              "and duplicate handling; Katleho changes the date range and bucket and explains the charts; "
+              "Tsholo opens verification evidence and explains the field comparison.", "",
+              "All four teammates rehearse their sections, check handovers and answer questions about how their "
+              "section connects to the full pipeline. Presentation and review duties are distributed across the team; "
+              "completion is recorded only after the relevant action is performed.", "",
+              "## 20 November 2026 — dashboard preparation", "",
+              "Checked that the local Grafana and database services were healthy. A corrected full-history "
+              "dashboard URL using numeric epoch-millisecond endpoints displayed 903,522 accepted snapshots "
+              "and 70.97% mean reported CPU. An invalid end date in 1970 explained an empty selected range. "
+              "The external ngrok browser check timed out; public access was not confirmed.", "",
               "## Decisions, challenges and lessons", "",
               "- The existing cleaner and schema provided the foundation for the ingestion and dashboard work.",
               "- Identical timestamps require measurement comparison before a reimport can be classified as a duplicate.",

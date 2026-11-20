@@ -1,6 +1,6 @@
 # Switch Squad project journal
 
-Prepared 18 November 2026.
+Updated 20 November 2026.
 
 ## Retrospective repository record
 
@@ -20,6 +20,7 @@ Retrospective chronology compiled from Git commit dates, author metadata and val
 | 2026-11-16 | 5f7fbc7 | Edwin | Add historical SQL analysis and provisioned Grafana dashboard |
 | 2026-11-16 | 3830f6f | Edwin | Prepare evidence-backed poster journal presentation and demo materials |
 | 2026-11-16 | 5bf6d4f | Edwin | Refresh public documentation and presentation exports |
+| 2026-11-19 | 0a20047 | Edwin | Document accepted deployment and refresh submission materials |
 
 ## Database loader development — retrospective
 
@@ -36,6 +37,27 @@ Retrospective summary of repository changes and recorded validation results. Tes
 5. Loaded 903,522 accepted rows with zero failures. Reimport inserted zero and skipped 903,522 identical rows. Every row and all 12 fields matched the cleaned CSV; the Linux runner independently completed that comparison.
 6. Implemented SQL analysis and provisioned Grafana. All 36 panel/bucket API checks passed; the full count was 903,522 and an empty range returned zero. Chrome rendered the dashboard and passed a real bucket-dropdown click. Actual screenshots were saved.
 7. Prepared poster, slide, journal, demo and checklist sources/exports from the saved evidence. The implementation and materials were merged through PRs #27–30. Presentation rehearsal and final submission remain outstanding.
+
+## 20 November 2026 — presentation and final review allocation
+
+Responsibilities below cover presentation delivery and remaining review tasks. They do not replace the recorded development contributions or establish completion of the reviews.
+
+| Teammate | Presentation responsibility | Final review responsibility |
+|---|---|---|
+| Edwin | Slides 1–2: introduction, project purpose and source data; opening demo context | Check submission files and repository links; confirm organiser submission channel and cutoff |
+| Jurry | Slides 3 and 5: cleaning pipeline, quality accounting and ingestion; explain repeat imports | Review cleaning and loader explanations against saved quality and ingestion evidence |
+| Tsholo | Slides 4 and 8: deployment, service connections and testing; show verification during the demo | Run presentation-laptop preflight checks and review saved validation evidence |
+| Katleho | Slides 6–7: dashboard and findings; close on slide 11 | Review chart labels, reported findings and PDF readability against the analysis |
+
+Shared slide 9: Edwin explains unavailable metrics; Jurry explains conflicting and missing values; Tsholo explains deployment acceptance; Katleho explains interpretation limits.
+
+Shared slide 10 demonstration: Edwin introduces the historical range; Jurry explains accepted counts and duplicate handling; Katleho changes the date range and bucket and explains the charts; Tsholo opens verification evidence and explains the field comparison.
+
+All four teammates rehearse their sections, check handovers and answer questions about how their section connects to the full pipeline. Presentation and review duties are distributed across the team; completion is recorded only after the relevant action is performed.
+
+## 20 November 2026 — dashboard preparation
+
+Checked that the local Grafana and database services were healthy. A corrected full-history dashboard URL using numeric epoch-millisecond endpoints displayed 903,522 accepted snapshots and 70.97% mean reported CPU. An invalid end date in 1970 explained an empty selected range. The external ngrok browser check timed out; public access was not confirmed.
 
 ## Decisions, challenges and lessons
 
