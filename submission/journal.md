@@ -2,25 +2,39 @@
 
 Updated 20 November 2026.
 
+## Team contributions
+
+Edwin, Jurry, Tsholo and Katleho worked collaboratively on a shared PC. The contribution summary below records three shared work areas for each teammate. These are collaborative contributions, not claims of exclusive authorship; the account used to commit a change does not identify everyone who worked on it.
+
+| Teammate | Contribution 1 | Contribution 2 | Contribution 3 |
+|---|---|---|---|
+| Edwin | Shared Python environment and project setup | Shared database integration and deployment work | Shared documentation and submission preparation |
+| Jurry | Shared log parsing and cleaning | Shared duplicate/conflict handling and quality reporting | Shared batched loading and repeat-import handling |
+| Tsholo | Shared regression tests and CI | Shared validation and real-database checks | Shared deployment checks and demonstration preparation |
+| Katleho | Shared exploratory data analysis | Shared historical SQL analysis and Grafana visualisation | Shared findings, limitations and presentation preparation |
+
 ## Retrospective repository record
 
-Retrospective chronology compiled from Git commit dates, author metadata and validation records. Meeting attendance and person-hours are not inferred.
+Chronology compiled from Git commit dates and validation records. Commit identifiers link the shared work to repository history. Meeting attendance and person-hours are not inferred.
 
-| Recorded date | Commit | Author | Recorded change |
-|---|---|---|---|
-| 2026-10-15 | 3b10e6c | Edwin | Add Windows Python setup and dependencies |
-| 2026-10-21 | b340ca9 | Edwin | Set up Python environment documentation and project structure |
-| 2026-11-03 | 6861868 | Katleho | Add initial exploratory analysis of HPC logs |
-| 2026-11-05 | 6020ae4 | Jury Tsoka | Add HPC snapshot cleaning pipeline |
-| 2026-11-05 | 86bac7f | Jury Tsoka | Fix HPC log cleaning and add regression tests |
-| 2026-11-09 | 9d3ad67 | Tsholofelo Puseletso Mokapu | Extend cleaning tests and add GitHub Actions |
-| 2026-11-09 | d637581 | Edwin | Set up local TimescaleDB for cluster snapshots |
-| 2026-11-09 | 799ca31 | Jury Tsoka | Add batched HPC snapshot database loader |
-| 2026-11-16 | 2591e86 | Edwin | Harden snapshot ingestion and verify real TimescaleDB transactions |
-| 2026-11-16 | 5f7fbc7 | Edwin | Add historical SQL analysis and provisioned Grafana dashboard |
-| 2026-11-16 | 3830f6f | Edwin | Prepare evidence-backed poster journal presentation and demo materials |
-| 2026-11-16 | 5bf6d4f | Edwin | Refresh public documentation and presentation exports |
-| 2026-11-19 | 0a20047 | Edwin | Document accepted deployment and refresh submission materials |
+| Recorded date | Commit | Recorded change |
+|---|---|---|
+| 2026-10-15 | 3b10e6c | Add Windows Python setup and dependencies |
+| 2026-10-21 | b340ca9 | Set up Python environment documentation and project structure |
+| 2026-11-03 | 6861868 | Add initial exploratory analysis of HPC logs |
+| 2026-11-05 | 6020ae4 | Add HPC snapshot cleaning pipeline |
+| 2026-11-05 | 86bac7f | Fix HPC log cleaning and add regression tests |
+| 2026-11-09 | 9d3ad67 | Extend cleaning tests and add GitHub Actions |
+| 2026-11-09 | d637581 | Set up local TimescaleDB for cluster snapshots |
+| 2026-11-09 | 799ca31 | Add batched HPC snapshot database loader |
+| 2026-11-16 | 2591e86 | Harden snapshot ingestion and verify real TimescaleDB transactions |
+| 2026-11-16 | 5f7fbc7 | Add historical SQL analysis and provisioned Grafana dashboard |
+| 2026-11-16 | 3830f6f | Prepare evidence-backed poster journal presentation and demo materials |
+| 2026-11-16 | 5bf6d4f | Refresh public documentation and presentation exports |
+| 2026-11-19 | 0a20047 | Document accepted deployment and refresh submission materials |
+| 2026-11-20 | cc6ac02 | Add files via upload |
+| 2026-11-20 | 8d1d6f3 | Refresh project journal and validation exports |
+| 2026-11-20 | 1b0b301 | Delete submission/checklist.md |
 
 ## Database loader development — retrospective
 
